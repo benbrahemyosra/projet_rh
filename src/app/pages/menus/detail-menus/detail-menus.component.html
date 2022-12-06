@@ -1,0 +1,68 @@
+<nz-spin [nzSpinning]="isLoading">
+  <nz-page-header
+    class="site-page-header"
+    (nzBack)="onBack()"
+    nzBackIcon
+    nzTitle="Détail menu"
+    [nzSubtitle]="'exemple menu'"
+  ></nz-page-header>
+
+  <div class="flex">
+    <div class="descs">
+      <div>
+        <nz-form-label style="text-align: unset"><b>Nom</b></nz-form-label>
+        <span>Menu 1</span>
+      </div>
+      <div>
+        <nz-form-label style="text-align: unset"><b>Nom chef</b></nz-form-label>
+        <span>chef 1</span>
+      </div>
+      <div>
+        <nz-form-label style="text-align: unset"><b>Prix</b></nz-form-label>
+        <span>20$</span>
+      </div>
+      <div>
+        <nz-form-label style="text-align: unset"
+          ><b>Déscription</b></nz-form-label
+        >
+      </div>
+    </div>
+    <div>
+      <button type="submit" nz-button nzType="primary" (click)="edit()">
+        <i nz-icon nzType="edit" nzTheme="outline"></i>
+        Modifier
+      </button>
+    </div>
+  </div>
+
+  <!-- description -->
+  <div>
+    <p style="text-align: justify">
+      {{ expanded_content }}
+      <a href="javascript:void(0)" (click)="expand()" *ngIf="!EXPAND">
+        Afficher plus
+      </a>
+    </p>
+  </div>
+
+  <!-- Liste des plats et options -->
+  <h2 style="float: left">Liste des plats</h2>
+  <br />
+  <br />
+  <app-inline-select
+    type="plat"
+    [editable]="true"
+    [selectable]="false"
+    [CUSTOM_ID]="'detail_menu'"
+  ></app-inline-select>
+
+  <h2 style="float: left">Liste des options</h2>
+  <br />
+  <br />
+  <app-inline-select
+    type="option"
+    [editable]="true"
+    [selectable]="false"
+    [CUSTOM_ID]="'detail_menu'"
+  ></app-inline-select>
+</nz-spin>

@@ -1,0 +1,86 @@
+<form
+  nz-form
+  [formGroup]="paramsService.validateForm"
+  (ngSubmit)="submitForm(paramsService.validateForm.value)"
+>
+  <nz-form-item>
+    <nz-form-control
+      [nzSpan]="24"
+      nzHasFeedback
+      nzValidatingTip="Validating..."
+      [nzErrorTip]="NbJourSemaineTPL"
+    >
+      <input nz-input formControlName="NbJourSemaine" type="number" placeholder="NbJourSemaine..." />
+      <ng-template #NbJourSemaineTPL let-control>
+        <ng-container *ngIf="control.hasError('required')"
+          > Veuillez saisir NbJourSemaine </ng-container
+        >
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control
+      [nzSpan]="24"
+      nzHasFeedback
+      nzValidatingTip="Validating..."
+      [nzErrorTip]="NbCongeSoldeTPL"
+    >
+      <input
+        nz-input
+        type="number"
+        formControlName="NbCongeSolde"
+        placeholder="NbCongeSolde..."
+      />
+      <ng-template #NbCongeSoldeTPL let-control>
+        <ng-container *ngIf="control.hasError('required')"
+          >Veuillez saisir NbCongeSolde !</ng-container
+        >
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control
+      [nzSpan]="24"
+      nzHasFeedback
+      nzValidatingTip="Validating..."
+      [nzErrorTip]="NbHeureJourTPL"
+    >
+      <input
+        nz-input
+        type="number"
+        formControlName="NbHeureJour"
+        placeholder="NbHeureJour..."
+      />
+      <ng-template #NbHeureJourTPL let-control>
+        <ng-container *ngIf="control.hasError('required')"
+          >Veuillez saisir NbHeureJour !</ng-container
+        >
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control
+      [nzSpan]="24"
+      nzHasFeedback
+      nzValidatingTip="Validating..."
+      [nzErrorTip]="MinNbHeureTPL"
+    >
+      <input
+        nz-input
+        type="number"
+        formControlName="MinNbHeure"
+        placeholder="MinNbHeure..."
+      />
+      <ng-template #MinNbHeureTPL let-control>
+        <ng-container *ngIf="control.hasError('required')"
+          >Veuillez saisir MinNbHeure !</ng-container
+        >
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+</form>
+

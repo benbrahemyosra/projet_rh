@@ -1,0 +1,91 @@
+<form
+  nz-form
+  [formGroup]="_menuService.validateForm"
+  (ngSubmit)="submitForm(_menuService.validateForm.value)"
+>
+  <div nz-row nzGutter="24">
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          nzValidatingTip="Validating..."
+          [nzErrorTip]="title_errorTPL"
+        >
+          <input nz-input formControlName="title" placeholder="Titre..." />
+          <ng-template #title_errorTPL let-control>
+            <ng-container *ngIf="control.hasError('required')"
+              >Veuillez saisir le titre du menu!</ng-container
+            >
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          nzValidatingTip="Validating..."
+          [nzErrorTip]="price_errorTPL"
+        >
+          <nz-input-number
+            formControlName="price"
+            nzPlaceHolder="Prix..."
+            style="width: 100%"
+            [nzMin]="0"
+            [nzStep]="1"
+          ></nz-input-number>
+          <ng-template #price_errorTPL let-control>
+            <ng-container *ngIf="control.hasError('required')"
+              >Veuillez saisir le prix du menu!</ng-container
+            >
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+  <nz-form-item>
+    <nz-form-control
+      [nzSpan]="24"
+      nzHasFeedback
+      nzValidatingTip="Validating..."
+      [nzErrorTip]="descriptionTPL"
+    >
+      <textarea
+        rows="4"
+        formControlName="description"
+        placeholder="Description..."
+        nz-input
+      ></textarea>
+      <ng-template #descriptionTPL let-control>
+        <ng-container *ngIf="control.hasError('required')"
+          >Veuillez saisir la description du menu!</ng-container
+        >
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-label style="text-align: unset"
+    ><b>Sélectionner la liste des plats</b></nz-form-label
+  >
+  <app-inline-select
+    [editable]="false"
+    [selectable]="true"
+    type="plat"
+    [CUSTOM_ID]="'add_menu'"
+    [LIST]="_menuService.LIST_OF_DISHES"
+    (listChanged)="listChanged($event)"
+  ></app-inline-select>
+  <br />
+  <br />
+  <nz-form-label style="text-align: unset"
+    ><b>Sélectionner la liste des options</b></nz-form-label
+  >
+  <app-inline-select
+    [editable]="false"
+    [selectable]="true"
+    type="option"
+    [CUSTOM_ID]="'add_menu'"
+    [LIST]="_menuService.LIST_OF_OPTIONS"
+  ></app-inline-select>
+</form>

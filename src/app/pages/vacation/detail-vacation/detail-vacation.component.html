@@ -1,0 +1,20 @@
+<nz-form-label style="text-align: unset"><b>Détails Généraux</b></nz-form-label>
+<nz-descriptions nzBordered class="">
+  <nz-descriptions-item nzTitle="ID" [nzSpan]="3"
+    >{{vacationService.SELECTED_VACATION?.id}}</nz-descriptions-item
+  >
+
+  <nz-descriptions-item nzTitle="Date de début" [nzSpan]="2"
+    >{{vacationService.SELECTED_VACATION?.date_debut}}</nz-descriptions-item
+  >
+  <nz-descriptions-item nzTitle="Date de fin" [nzSpan]="2"
+    >{{vacationService.SELECTED_VACATION?.date_fin}}</nz-descriptions-item
+  >
+  <nz-descriptions-item nzTitle="Status" [nzSpan]="3">
+    <nz-badge nzStatus="processing" >{{vacationService.SELECTED_VACATION?.status}}</nz-badge>
+  </nz-descriptions-item>
+  
+  <nz-descriptions-item nzTitle="Description" [nzSpan]="2"
+  >{{vacationService.SELECTED_VACATION?.description}}</nz-descriptions-item
+> 
+</nz-descriptions>

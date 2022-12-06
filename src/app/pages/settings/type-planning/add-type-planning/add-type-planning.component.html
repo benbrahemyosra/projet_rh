@@ -1,0 +1,44 @@
+<form
+  nz-form
+  [formGroup]="typePlanService.validateForm"
+  (ngSubmit)="submitForm(typePlanService.validateForm.value)"
+>
+  <nz-form-item>
+    <nz-form-control
+      [nzSpan]="24"
+      nzHasFeedback
+      nzValidatingTip="Validating..."
+      [nzErrorTip]="nameTPL"
+    >
+      <input nz-input formControlName="name" type="string" placeholder="name..." />
+      <ng-template #nameTPL let-control>
+        <ng-container *ngIf="control.hasError('required')"
+          > Veuillez saisir name ! </ng-container
+        >
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control
+      [nzSpan]="24"
+      nzHasFeedback
+      nzValidatingTip="Validating..."
+      [nzErrorTip]="codeTPL"
+    >
+      <input
+        nz-input
+        type="number"
+        formControlName="code"
+        placeholder="code.."
+      />
+      <ng-template #codeTPL let-control>
+        <ng-container *ngIf="control.hasError('required')"
+          >Veuillez saisir actif !</ng-container
+        >
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+
+

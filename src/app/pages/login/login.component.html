@@ -1,0 +1,58 @@
+<div class="content">
+  <div class="LOGO">
+    <span>Ressources Humaines</span>
+  </div>
+  <div class="MAIN">
+    <form
+      nz-form
+      [formGroup]="validateForm"
+      (ngSubmit)="submitForm(validateForm.value)"
+    >
+      <nz-form-item>
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          nzValidatingTip="Validating..."
+          [nzErrorTip]="email_errorTPL"
+        >
+          <input class="INPUT" nz-input formControlName="email" placeholder="Email..." />
+          <ng-template #email_errorTPL let-control>
+            <ng-container *ngIf="control.hasError('required')"
+              >Veuillez saisir votre email!</ng-container
+            >
+            <ng-container *ngIf="control.hasError('pattern')"
+              >L'entrée n'est pas valide!</ng-container
+            >
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          nzValidatingTip="Validating..."
+          [nzErrorTip]="password_errorTPL"
+        >
+          <input class="INPUT"
+            nz-input
+            formControlName="password"
+            placeholder="Mot de passe..."
+            type="password"
+          />
+          <ng-template #password_errorTPL let-control>
+            <ng-container *ngIf="control.hasError('required')"
+              >Veuillez saisir le mot de passe!</ng-container
+            >
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzSpan]="24">
+          <button class="INPUT" nz-button nzType="primary" [disabled]="!validateForm.valid">
+            S'authentifier
+          </button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+</div>

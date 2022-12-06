@@ -1,0 +1,22 @@
+<form>
+<nz-form-item>
+    <nz-form-control
+      [nzSpan]="24"
+      nzHasFeedback
+      nzValidatingTip="Validating..."
+      [nzErrorTip]="first_nameTPL"
+    >
+      <input
+        nz-input
+        type="text"
+        formControlName="salary_post"
+        placeholder="Commentaire..."
+      />
+      <ng-template #first_nameTPL let-control>
+        <ng-container *ngIf="control.hasError('required')"
+          >Veuillez saisir la salaire!</ng-container
+        >
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+</form>

@@ -1,0 +1,144 @@
+<div class="search-result-list">
+  <nz-table #basicTable (nzPageIndexChange)="onCurrentPageDataChange($event)" [nzData]="table.data"
+    [nzFrontPagination]="false" [nzPageSize]="5" [nzLoading]="_service.isLoading" [nzTotal]="total">
+    <thead>
+      <tr>
+        <th *ngIf="_router.url === '/home/planning'"></th>
+          <th id="header" [nzSortFn]="item.sortFn" [nzSortDirections]="item.sortDirections" *ngFor="let item of table.header" >
+            {{ item.name }}
+      </tr>
+    </thead>
+    <tbody>
+      <ng-template ngFor let-data [ngForOf]="basicTable.data" let-i="index">
+        <tr>
+          <td [(nzExpand)]="data.expand" *ngIf="_router.url === '/home/planning'" (click)="onSelect(data)"
+            (click)="checked(data,i)"></td>
+            <td *ngFor="let key of table.header" [class]="key.name === 'description' ? 'forDsec' : null"
+              [ngStyle]="{'left':planningService.Tvisiblity[i]==false && key.name === 'Action' ? '121px':'0px'} ">
+              <span>
+                {{ data[key.name] }}
+              </span>
+        
+          <!-- <span *ngIf="key.name === 'chef_name_cmd'">
+            <a (click)="detailChef(data)">{{ data[key.name] }}</a>
+          </span>
+          <span *ngIf="key.name === 'command_id'">
+            <a (click)="detailCommand(data)">{{ data[key.name] }}</a>
+          </span>
+          <span *ngIf="key.name === 'client_name'">
+            <a (click)="detailClient(data)">{{ data[key.name] }}</a>
+          </span>
+          <span *ngIf="key.name === 'A la une'" (click)="setTrending.emit(i)">
+            <nz-switch
+              class="noAnimation"
+              [nzControl]="true"
+              [ngModel]="data['trending']"
+            ></nz-switch>
+          </span> -->
+          <span *ngIf="key.name === 'Afficher dans la liste'" (click)="
+              clickedBtn({ name: 'Bloquer', danger: true, delete: true }, i)
+            ">
+            <!-- <nz-switch
+              class="noAnimation"
+              [nzControl]="true"
+              [ngModel]="data['active']"
+            ></nz-switch> -->
+          </span>
+          <span
+            *ngIf="((key.name === 'Action'  && (( _APP_SERVICE.role ==='employee' && _router.url === '/home/conge') ||  _APP_SERVICE.role ==='admin' )) && planningService.table.data!==[])">
+            <span *ngFor="let item of table.btnConfig">
+
+              <button *ngIf="!item.delete" (click)="clickedBtn(item, i)" nz-button
+                [hidden]="(item.name==='Ajouter Tâche'&& planningService.Tvisiblity[i]==false) || (item.name==='Télécharger Certificat' && vactionService.Tvisiblity[i]==false ) || (item.name === 'Modifier' && (data['status']=='Acceptation' || data['status']=='Refus')  )"
+                [nzType]="item.name === 'Modifier' || item.name === 'Ajouter Tâche' || item.name === 'Télécharger Certificat' ? 'dashed' :  'default'"
+                [nzDanger]="item.danger"
+                [class]="item.name === 'Modifier' ? 'WARN' :item.name === 'Ajouter Tâche'|| item.name === 'Télécharger Certificat' ?'add':''">
+                {{ item.name }}
+              </button>
+              &nbsp;
+              <button *ngIf="item.delete && item.name !== 'Annuler'" (click)="clickedBtn(item, i)" nz-button
+                nz-popconfirm nzOkText="Oui" nzCancelText="Non" nzType="dashed" [nzDanger]="item.danger">
+                {{ item.name }}
+              </button>
+              <button *ngIf="
+                  item.delete &&
+                  item.name === 'Annuler' &&
+                  data['status'] !== 'Annulé'
+                " (click)="clickedBtn(item, i)" nz-button nz-popconfirm nzOkText="Oui" nzCancelText="Non"
+                nzType="dashed" [nzDanger]="item.danger">
+                {{ item.name }}
+              </button>
+              
+            </span>
+          </span>
+          </td>
+        </tr>
+        <tr [(nzExpand)]="data.expand">
+          <nz-descriptions nzBordered class="">
+            <nz-descriptions-item nzTitle="Description" [nzSpan]="3">
+              {{ data.description }}
+            </nz-descriptions-item>
+
+            <nz-descriptions-item nzTitle="Liste des Employées" [nzSpan]="3">
+              <span *ngFor="let item of data.liste_employees">{{item.first_name}} {{item.last_name}}, </span>
+            </nz-descriptions-item>
+          </nz-descriptions>
+          <div *ngIf="this.planningService.Tvisiblity[i]==true">
+            <nz-table #innerTable [nzData]="_service.listeTache.data" nzSize="middle" [nzShowPagination]="false">
+              <thead>
+                <tr>
+                  <th nzWidth="60px"></th>
+                  <th>Titre</th>
+                  <th>Date début</th>
+                  <th>Date fin</th>
+                  <th>Employé</th>
+                  <th *ngIf=" _APP_SERVICE.role ==='admin'">Action</th>
+                </tr>
+              </thead>
+    <tbody>
+      <ng-container *ngFor="let data of innerTable.data">
+        <tr>
+          <td [(nzExpand)]="expandSet" (nzExpandChange)="onExpandChange(data, $event)"></td>
+          <td>{{ data.titre }}</td>
+          <td>{{ data.date_debut }}</td>
+          <td>{{ data.date_fin }}</td>
+          <td>{{data.full_name}} </td>
+          <ng-container *ngIf=" _APP_SERVICE.role ==='admin'">
+            <span *ngFor="let item of _service.listeTache.btnConfig">
+              <button *ngIf="!item.delete" (click)="btnClicked1(item,data,$event)" nz-button
+                [nzType]="item.name === 'Modifier' ? 'dashed' : 'default'" [nzDanger]="item.danger"
+                [class]="item.name === 'Modifier' ? 'WARN' : ''">
+                {{ item.name }}
+              </button>
+              &nbsp;
+              <button *ngIf="item.delete && item.name !== 'Annuler'" (click)="btnClicked1(item,data,$event)" nz-button
+                nz-popconfirm nzOkText="Oui" nzCancelText="Non" nzType="dashed" [nzDanger]="item.danger">
+                {{ item.name }}
+              </button>
+              <button *ngIf="
+                  item.delete &&
+                  item.name === 'Annuler' &&
+                  data['status'] !== 'Annulé'
+                " (click)="btnClicked1(item,data,$event)" nz-button nz-popconfirm nzOkText="Oui" nzCancelText="Non"
+                nzType="dashed" [nzDanger]="item.danger">
+                {{ item.name }}
+              </button>
+            </span>
+          </ng-container>
+        </tr>
+        <tr [nzExpand]="expandSet">
+          <nz-descriptions nzBordered class="">
+            <nz-descriptions-item nzTitle="Description">
+              {{ data.description }}
+            </nz-descriptions-item>
+          </nz-descriptions>
+        </tr>
+      </ng-container>
+    </tbody>
+  </nz-table>
+</div>
+</tr>
+</ng-template>
+</tbody>
+</nz-table>
+</div>

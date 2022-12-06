@@ -1,0 +1,14 @@
+<div>
+  <app-filter
+    [filter]="filter"
+    (submitFilterEvent)="submitedFilter($event)"
+  ></app-filter>
+  <br />
+  <button style="float: left" type="button" nz-button nzType="primary" (click)="add()">
+    <i nz-icon nzType="plus" nzTheme="outline"></i>
+    Ajouter
+  </button>
+  <br />
+  <br />
+  <app-table [table]="table" (btnClicked)="btnClicked($event)"></app-table>
+</div>

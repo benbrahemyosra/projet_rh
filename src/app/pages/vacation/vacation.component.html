@@ -1,0 +1,20 @@
+<div>
+  <app-filter [filter]="filter" (submitFilterEvent)="submitedFilter($event)"></app-filter>
+  <br />
+  <div style="height: 50px">
+    <button style="float: right" type="button" nz-button nzType="primary" (click)="add()">
+      <i nz-icon nzType="plus" nzTheme="outline"></i>
+      Ajouter
+    </button>
+  </div>
+
+  <nz-radio-group [(ngModel)]="radioValue" *ngIf="_APP_SERVICE.role=='admin'">
+    <label nz-radio nzValue="A" (click)=" getAll($event)">Tout</label>
+    <label nz-radio nzValue="B" (click)="getbyid()">Mes congés</label>
+  </nz-radio-group>
+  <br />
+  <br />
+
+  <app-table [table]="table" (btnClicked)="btnClicked($event)" [total]="vacationService.total"
+    (pageChangedEvent)="pageChanged($event)"></app-table>
+</div>

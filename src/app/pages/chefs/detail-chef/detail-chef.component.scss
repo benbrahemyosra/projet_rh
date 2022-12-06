@@ -1,0 +1,44 @@
+// .AVATAR {
+//   width: 200px;
+//   height: 200px;
+//   border-radius: 25%;
+//   margin-bottom: 25px;
+// }
+// .DETAIL {
+//   display: flex;
+//   align-items: center;
+// }
+// .DISHES_CAROUSEL {
+//     display: flex;
+//     justify-content: space-between;
+//     overflow: scroll;
+//     overflow-y: hidden;
+// }
+
+[nz-carousel-content] {
+  text-align: center;
+  height: 160px;
+  line-height: 160px;
+  background: #364d79;
+  color: #fff;
+  overflow: hidden;
+}
+
+h3 {
+  color: #fff;
+  margin-bottom: 0;
+  user-select: none;
+}
+.descs {
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  text-align: left;
+}
+
+.flex {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  justify-content: space-between;
+}

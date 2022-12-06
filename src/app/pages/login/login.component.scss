@@ -1,0 +1,28 @@
+.content {
+  // background: #ececec;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  background-blend-mode: overlay;
+  background-color: rgba(0, 0, 0, 0.6);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-attachment: fixed;
+}
+
+.MAIN {
+  width: 33%;
+}
+
+.LOGO {
+  color: white;
+  font-size: xxx-large;
+  padding-bottom: 10vh;
+}
+
+.INPUT {
+  height: 50px;
+}

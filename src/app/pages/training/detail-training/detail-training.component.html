@@ -1,0 +1,52 @@
+<nz-form-label style="text-align: unset"><b>Détails Généraux</b></nz-form-label>
+<nz-descriptions nzBordered class="">
+  <nz-descriptions-item nzTitle="ID" [nzSpan]="3"
+    >Ref000001</nz-descriptions-item
+  >
+  <nz-descriptions-item nzTitle="prénom et nom" [nzSpan]="2"
+    >Jhon Doe</nz-descriptions-item
+  >
+  <!-- <nz-descriptions-item nzTitle="Durée" [nzSpan]="3"
+    >3 Jours</nz-descriptions-item
+  > -->
+
+  <!-- <nz-descriptions-item nzTitle="Date de début" [nzSpan]="2"
+    >29/11/2021</nz-descriptions-item
+  >
+  <nz-descriptions-item nzTitle="Date de fin" [nzSpan]="2"
+    >02/12/2021</nz-descriptions-item
+  > -->
+  <nz-descriptions-item nzTitle="Status" [nzSpan]="3">
+    <nz-badge nzStatus="processing" nzText="En attente"></nz-badge>
+  </nz-descriptions-item>
+</nz-descriptions>
+<br />
+<br />
+<b>Raison</b>
+<br />
+<p>
+  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Harum similique
+  suscipit molestias, vitae corrupti voluptates quisquam, nemo quod veniam,
+  aperiam at sint? Est voluptate ducimus similique, natus facere impedit saepe?
+</p>
+<br />
+<br />
+<b>Status : </b>
+<br />
+<br />
+<form nz-form [formGroup]="trainingService.validateForm">
+  <nz-select
+    class="FULL_WIDTH"
+    style="text-align: left"
+    formArrayName="category"
+    nzPlaceHolder="Status de formation"
+    ngModel
+    nzAllowClear
+  >
+    <nz-option
+      *ngFor="let item of category"
+      [nzValue]="item.value"
+      [nzLabel]="item.name"
+    ></nz-option>
+  </nz-select>
+</form>

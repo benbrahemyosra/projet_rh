@@ -1,0 +1,55 @@
+<form
+  nz-form
+  [formGroup]="_optionService.validateForm"
+  (ngSubmit)="submitForm(_optionService.validateForm.value)"
+>
+  <nz-form-item>
+    <nz-form-control
+      [nzSpan]="24"
+      nzHasFeedback
+      nzValidatingTip="Validating..."
+      [nzErrorTip]="title_errorTPL"
+    >
+      <input nz-input formControlName="title" placeholder="Titre..." />
+      <ng-template #title_errorTPL let-control>
+        <ng-container *ngIf="control.hasError('required')"
+          >Veuillez saisir le titre de l'option!</ng-container
+        >
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control
+      [nzSpan]="24"
+      nzHasFeedback
+      nzValidatingTip="Validating..."
+      [nzErrorTip]="price_errorTPL"
+    >
+      <nz-input-number
+        formControlName="price"
+        nzPlaceHolder="Prix..."
+        style="width: 100%"
+        [nzMin]="0"
+        [nzStep]="1"
+      ></nz-input-number>
+      <ng-template #price_errorTPL let-control>
+        <ng-container *ngIf="control.hasError('required')"
+          >Veuillez saisir le prix de l'option!</ng-container
+        >
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <!-- pictures list -->
+  <div *ngIf="!isChef; else elseBlok">
+    <b>Séléctionner une photo: </b>
+    <br />
+    <br />
+    <app-upload
+      [CONFIG]="config_photo"
+      (changedFilelist)="changedFilelist()"
+    ></app-upload>
+  </div>
+  <ng-template #elseBlok>
+    <img [src]="config_photo.fileList[0].url" alt="" style="width: 100%" />
+  </ng-template>
+</form>

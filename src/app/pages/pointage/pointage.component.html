@@ -1,0 +1,42 @@
+<div>
+  <app-filter [filter]="filter" (submitFilterEvent)="submitedFilter($event)">
+  </app-filter>
+  <br />
+  <p style="font-weight: 500;font-size: 50px;">{{timerService.fetchDisplay()}}</p>  
+  <br />
+  <div fxLayout="column" fxLayoutAlign="center center" >
+  <button [disabled]="clickedstart" style="float: center" type="button" nz-button nzType="primary"
+    (click)="Addstartday()">
+    <span nz-icon [nzType]="'smile'" [nzTheme]="'twotone'" [nzTwotoneColor]="'#ee6c85'"></span>
+    début de journée
+  </button>
+
+  <button  style="float: center" type="button" nz-button nzType="primary" (click)="AddPausse('clickedPause')"
+    [disabled]="clickedPause">
+    <span nz-icon nzType="pause-circle" nzTheme="twotone" [nzTwotoneColor]="'#ee6c85'"></span>
+    Début de pause
+  </button>
+
+  <button style="float: center" type="button" nz-button nzType="primary" (click)="AddPausse('clickedEndPause')"
+    [disabled]="clickedEndPause">
+    <span nz-icon nzType="stop" nzTheme="twotone" [nzTwotoneColor]="'#ee6c85'"></span>
+    Fin de pause
+  </button>
+
+  <button style="float: center" type="button" nz-button nzType="primary" (click)="AddPausse('clickedEnd')"
+    [disabled]="clickedendOfDay">
+    <span nz-icon [nzType]="'check-circle'" [nzTheme]="'twotone'" [nzTwotoneColor]="'#ee6c85'"></span>
+    Fin de journée
+  </button>
+  <br />
+  <br />
+  <nz-radio-group [(ngModel)]="radioValue" *ngIf="_APP_SERVICE.role=='admin'">
+    <label nz-radio nzValue="A" (click)=" getAll($event)">Tout</label>
+    <label nz-radio nzValue="B" (click)="getbyid()">Mes pointages</label>
+  </nz-radio-group>
+  <br />
+  <br />
+</div>
+  <app-table [table]="table" (btnClicked)="btnClicked($event)" [total]="pointageService.total"
+    (pageChangedEvent)="pageChanged($event)"></app-table>
+</div>

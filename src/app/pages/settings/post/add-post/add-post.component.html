@@ -1,0 +1,42 @@
+<form
+  nz-form
+  [formGroup]="postService.validateForm"
+  (ngSubmit)="submitForm(postService.validateForm.value)"
+>
+  <nz-form-item>
+    <nz-form-control
+      [nzSpan]="24"
+      nzHasFeedback
+      nzValidatingTip="Validating..."
+      [nzErrorTip]="first_nameTPL"
+    >
+      <input nz-input formControlName="name_post" placeholder="Nom..." />
+      <ng-template #first_nameTPL let-control>
+        <ng-container *ngIf="control.hasError('required')"
+          > Veuillez saisir le nom de post </ng-container
+        >
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-control
+      [nzSpan]="24"
+      nzHasFeedback
+      nzValidatingTip="Validating..."
+      [nzErrorTip]="first_nameTPL"
+    >
+      <input
+        nz-input
+        type="number"
+        formControlName="salary_post"
+        placeholder="Salaire..."
+      />
+      <ng-template #first_nameTPL let-control>
+        <ng-container *ngIf="control.hasError('required')"
+          >Veuillez saisir la salaire!</ng-container
+        >
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+</form>

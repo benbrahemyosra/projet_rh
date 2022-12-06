@@ -1,0 +1,47 @@
+<form nz-form [formGroup]="vacationService.validateFormAdd">
+  <nz-form-item>
+    <nz-form-control [nzSpan]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="datestartTPL">
+      <nz-date-picker nzPlaceHolder="date de début" class="FULL_WIDTH" formControlName="date_debut"
+        [nzDisabledDate]="disabledStartDate" (ngModelChange)="onSelect()">
+      </nz-date-picker>
+      <ng-template #datestartTPL let-control>
+        <ng-container *ngIf="control.hasError('required')">Veuillez saisir la date de début!</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzSpan]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="dateEndTPL">
+      <nz-date-picker nzPlaceHolder="date de fin" class="FULL_WIDTH" [nzDisabledDate]="disabledEndDate" #endDatePicker
+        formControlName="date_fin">
+      </nz-date-picker>
+      <ng-template #dateEndTPL let-control>
+        <ng-container *ngIf="control.hasError('required')">Veuillez saisir la date de fin!</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzSpan]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="typeTPL">
+      <nz-select class="FULL_WIDTH" style="text-align: left" formControlName="codeTypeConge" (ngModelChange)="onSelectTYPE($event)"nzPlaceHolder="Type..."
+        nzAllowClear >
+        <nz-option *ngFor="let item of typeConge" [nzValue]="item.name" [nzLabel]="item.name"></nz-option>
+      </nz-select>
+      <ng-template #typeTPL let-control>
+        <ng-container *ngIf="control.hasError('required')">Veuillez saisir le type!</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzSpan]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="descriptionTPL">
+      <input nz-input formControlName="description" placeholder="raison..." />
+      <ng-template #descriptionTPL let-control>
+        <ng-container *ngIf="control.hasError('required')">Veuillez saisir la place!</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item *ngIf="vacationService.typeSelect=='1'">
+    <nz-form-control  [nzSpan]="24">
+          <input nz-input formControlName="imageName" placeholder="titre..." type="file" (change)="selectFile($event)" />
+  </nz-form-control>
+    </nz-form-item>
+    
+</form>

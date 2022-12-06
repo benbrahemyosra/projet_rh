@@ -1,0 +1,23 @@
+<div>
+    <br />
+    <button
+      style="float: right"
+      type="button"
+      nz-button
+      nzType="primary"
+      (click)="add()"
+    >
+    <i nz-icon nzType="plus" nzTheme="outline"></i>
+      AJOUTER TYPE 
+    </button>
+    <br />
+    <br />
+    <br />
+    <app-table
+      [table]="table"
+      (btnClicked)="btnClicked($event)"
+      [total]="typeDemandeService.total"
+      (pageChangedEvent)="pageChanged($event)"
+    ></app-table>
+  </div>
+  

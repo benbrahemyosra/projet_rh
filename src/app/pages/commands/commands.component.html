@@ -1,0 +1,8 @@
+<div>
+  <app-filter
+    [filter]="filter"
+    (submitFilterEvent)="submitedFilter($event)"
+  ></app-filter>
+  <br />
+  <app-table [table]="table" (btnClicked)="btnClicked($event)"></app-table>
+</div>

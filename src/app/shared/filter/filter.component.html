@@ -1,0 +1,70 @@
+<form
+  nz-form
+  #filterForm="ngForm"
+  class="ant-advanced-search-form"
+  (ngSubmit)="submitFilter(filterForm.value)"
+>
+  <div nz-row [nzGutter]="24">
+    <div style="margin-top: 2vh;" nz-col [nzSpan]="8" *ngFor="let filterItem of filter.filters">
+      <input
+        [name]="filterItem.input_form_name"
+        *ngIf="filterItem.input_form_type === 'text'"
+        [type]="filterItem.input_form_type"
+        [placeholder]="filterItem.placeholder"
+        nz-input
+        ngModel
+      />
+      <nz-input-number
+        class="FULL_WIDTH"
+        *ngIf="filterItem.input_form_type === 'number'"
+        [name]="filterItem.input_form_name"
+        [nzPlaceHolder]="filterItem.placeholder"
+        [nzMin]="1"
+        [nzMax]="10"
+        [nzStep]="1"
+        ngModel
+      ></nz-input-number>
+      <nz-date-picker
+        class="FULL_WIDTH"
+        *ngIf="filterItem.input_form_type === 'date'"
+        [name]="filterItem.input_form_name"
+        [nzPlaceHolder]="filterItem.placeholder"
+        ngModel
+      ></nz-date-picker>
+      <nz-select
+        class="FULL_WIDTH"
+        style="text-align: left"
+        *ngIf="filterItem.input_form_type === 'select'"
+        [name]="filterItem.input_form_name"
+        [nzPlaceHolder]="filterItem.placeholder"
+        ngModel
+        nzAllowClear
+      >
+        <nz-option
+          *ngFor="let item of filterItem.select_data"
+          [nzValue]="item.value"
+          [nzLabel]="item.name"
+        ></nz-option>
+      </nz-select>
+    </div>
+  </div>
+
+  <br />
+  <div nz-row>
+    <div nz-col [nzSpan]="24" class="search-area">
+      <button type="submit" nz-button nzType="primary">
+        <i nz-icon nzType="search"></i>
+        Rechercher
+      </button>
+      <button
+        nz-button
+        (click)="clear()"
+        nzType="dashed"
+        type="button"
+        nzDanger
+      >
+        Annuler
+      </button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,212 @@
+ <nz-steps [nzCurrent]="_chefService.current">
+  <nz-step nzTitle="Information Utilisateur" nzDescription=""></nz-step>
+  <nz-step nzTitle="Information restaurant" nzDescription=""></nz-step>
+  <nz-step nzTitle="Media" nzDescription=""></nz-step>
+</nz-steps>
+<div class="steps-content">
+  <div *ngIf="_chefService.current === 0">
+    <form
+      nz-form
+      [formGroup]="_chefService.validateForm"
+      (ngSubmit)="submitForm(_chefService.validateForm.value)"
+    >
+      <nz-form-item>
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          nzValidatingTip="Validating..."
+          [nzErrorTip]="first_nameTPL"
+        >
+          <input nz-input formControlName="first_name" placeholder="Nom..." />
+          <ng-template #first_nameTPL let-control>
+            <ng-container *ngIf="control.hasError('required')"
+              >Veuillez saisir le nom du chef!</ng-container
+            >
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          nzValidatingTip="Validating..."
+          [nzErrorTip]="last_nameTPL"
+        >
+          <input nz-input formControlName="last_name" placeholder="Prenom..." />
+          <ng-template #last_nameTPL let-control>
+            <ng-container *ngIf="control.hasError('required')"
+              >Veuillez saisir le prenom du chef!</ng-container
+            >
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          [nzErrorTip]="email_errorTPL"
+        >
+          <input
+            nz-input
+            formControlName="email"
+            placeholder="email..."
+            type="email"
+          />
+          <ng-template #email_errorTPL let-control>
+            <ng-container *ngIf="control.hasError('pattern')"
+              >L'entrée n'est pas valide!</ng-container
+            >
+            <ng-container *ngIf="control.hasError('required')"
+              >Veuillez saisir votre e-mail!</ng-container
+            >
+            <ng-container *ngIf="control.hasError('duplicated')"
+              >L'email est existant!</ng-container
+            >
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          nzValidatingTip="Validating..."
+          [nzErrorTip]="phoneTPL"
+        >
+          <input nz-input formControlName="phone" placeholder="telephone..." />
+          <ng-template #phoneTPL let-control>
+            <ng-container *ngIf="control.hasError('required')"
+              >Veuillez saisir le prenom du chef!</ng-container
+            >
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="!chef">
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          nzErrorTip="Veuillez saisir le mot de passe!"
+        >
+          <input
+            nz-input
+            type="password"
+            formControlName="password"
+            placeholder="Mot de passe..."
+            (ngModelChange)="validateConfirmPassword()"
+          />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="!chef">
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          [nzErrorTip]="password_errorTPL"
+        >
+          <input
+            nz-input
+            type="password"
+            formControlName="confirm"
+            placeholder="Confirmer mot de passe..."
+          />
+          <ng-template #password_errorTPL let-control>
+            <ng-container *ngIf="control.hasError('required')"
+              >Veuillez confirmer votre mot de passe!</ng-container
+            >
+            <ng-container *ngIf="control.hasError('confirm')"
+              >Le mot de passe est incohérent!</ng-container
+            >
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div *ngIf="_chefService.current === 1">
+    <form
+      nz-form
+      [formGroup]="_chefService.validateForm_restau"
+      (ngSubmit)="submitForm(_chefService.validateForm.value)"
+    >
+      <nz-form-item>
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          nzValidatingTip="Validating..."
+          [nzErrorTip]="restaurant_nameTPL"
+        >
+          <input
+            nz-input
+            formControlName="restaurant_name"
+            placeholder="Nom du restaurant..."
+          />
+          <ng-template #restaurant_nameTPL let-control>
+            <ng-container *ngIf="control.hasError('required')"
+              >Veuillez saisir le nom du restaurant!</ng-container
+            >
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          nzValidatingTip="Validating..."
+          [nzErrorTip]="kitchen_typeTPL"
+        >
+          <input
+            nz-input
+            formControlName="kitchen_type"
+            placeholder="Type de cuisine..."
+          />
+          <ng-template #kitchen_typeTPL let-control>
+            <ng-container *ngIf="control.hasError('required')"
+              >Veuillez saisir le type de cuisine!</ng-container
+            >
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          nzValidatingTip="Validating..."
+          [nzErrorTip]="descriptionTPL"
+        >
+          <textarea
+            rows="4"
+            formControlName="description"
+            placeholder="Description..."
+            nz-input
+          ></textarea>
+          <ng-template #descriptionTPL let-control>
+            <ng-container *ngIf="control.hasError('required')"
+              >Veuillez saisir la description!</ng-container
+            >
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div *ngIf="_chefService.current === 2">
+    <div>
+      <b>Photo de profile: </b>
+      <br />
+      <br />
+      <app-upload [CONFIG]="config_avatar" (changedFilelist)="changedFilelist()"></app-upload>
+    </div>
+
+    <!-- pictures list -->
+    <div>
+      <b>Liste des photos: </b>
+      <br />
+      <br />
+      <app-upload [CONFIG]="config_list_images" (changedFilelist)="changedFilelist()"></app-upload>
+    </div>
+
+    <!-- video upload -->
+    <div>
+      <b>Vidéo de démonstration: </b>
+      <br />
+      <br />
+      <app-upload [CONFIG]="config_video" (changedFilelist)="changedFilelist()"></app-upload>
+    </div>
+  </div>
+</div>

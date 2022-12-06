@@ -1,0 +1,26 @@
+<!-- MAIN APP -->
+<router-outlet></router-outlet>
+<nz-back-top></nz-back-top>
+<!-- // -->
+
+<!-- DYNAMIC MODAL -->
+<app-general-modal
+  *ngFor="let item of _appService.MODALS_NUMBER; let idx = index"
+  [CONFIG]="getConfig(idx)"
+  (handleOk)="handleOk($event)"
+  (handleCancel)="handleCancel($event)"
+  (submitCommand)="submitCommand($event)"></app-general-modal>
+
+
+<!-- /<ul>
+    <li *ngFor="let book of bookList">{{ book.name }}</li>
+</ul>/ -->
+
+<!-- 
+<li *ngFor="let book of bookList; let index = index; let isFirst = first; let isOdd = odd;">
+  <span>{{ index }}</span>
+  <span>:</span>
+  <span>{{ book.name }}</span>
+  <span>( isFirst: {{ isFirst }}, isOdd: {{ isOdd }} )</span>
+</li>
+ / -->

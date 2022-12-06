@@ -1,0 +1,150 @@
+<nz-steps [nzCurrent]="planningService.suiv">
+  <nz-step nzTitle="général" nzDescription="" *ngIf="
+      planningService.validateForm_general.controls.type_Planning.value === 'projet' && planningService.btnClicked!=='Modifier'">
+  </nz-step>
+  <nz-step nzTitle="les tâches" nzDescription="" *ngIf="
+      planningService.validateForm_general.controls.type_Planning.value === 'projet'&& planningService.btnClicked!=='Modifier'
+    "></nz-step>
+</nz-steps>
+<div class="steps-content">
+  <div *ngIf="planningService.typecode !== 10">
+    <form nz-form [formGroup]="planningService.validateForm_general">
+      <nz-form-item>
+        <nz-form-control [nzSpan]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="first_nameTPL">
+          <input nz-input formControlName="name" placeholder="titre..." />
+          <ng-template #first_nameTPL let-control>
+            <ng-container *ngIf="control.hasError('required')">Veuillez saisir le titre!</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzSpan]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="first_nameTPL">
+          <textarea formControlName="description" nz-input placeholder="description..."
+            [nzAutosize]="{ minRows: 2, maxRows: 6 }"></textarea>
+          <ng-template #first_nameTPL let-control>
+            <ng-container *ngIf="control.hasError('required')">Veuillez saisir la description!</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzSpan]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="typeTPL">
+          <nz-select class="FULL_WIDTH" style="text-align: left" formControlName="type_Planning"
+            nzPlaceHolder="type Planning..." nzAllowClear (ngModelChange)="onSelect($event)">
+            <nz-option *ngFor="let item of type_Planning" [nzValue]="item.name" [nzLabel]="item.name"></nz-option>
+          </nz-select>
+          <ng-template #typeTPL let-control>
+            <ng-container *ngIf="control.hasError('required')">Veuillez saisir le type!</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzSpan]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="dateEndTPL">
+          <nz-date-picker nzPlaceHolder="date de début..." class="FULL_WIDTH" formControlName="start_date"
+           [nzDisabledDate]="disabledStartDate" (ngModelChange)="onSelect2()">
+          </nz-date-picker>
+          <ng-template #dateEndTPL let-control>
+            <ng-container *ngIf="control.hasError('required')">Veuillez saisir la date de début!</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzSpan]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="dateEndTPL">
+          <nz-date-picker nzPlaceHolder="date de fin..." class="FULL_WIDTH" formControlName="end_date"
+        [nzDisabledDate]="disabledEndDate"  #endDatePicker >
+          </nz-date-picker>
+          <ng-template #dateEndTPL let-control>
+            <ng-container *ngIf="control.hasError('required')">Veuillez saisir la date de fin!</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzSpan]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="dateEndTPL">
+          <nz-date-picker nzPlaceHolder="date de production.." class="FULL_WIDTH" formControlName="dateProd"    
+          [nzDisabledDate]="disabledDateProd"  nzShowTime
+          nzFormat="yyyy-MM-dd HH:mm">
+          </nz-date-picker>
+          <ng-template #dateEndTPL let-control>
+            <ng-container *ngIf="control.hasError('required')">Veuillez saisir la date de fin!</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzSpan]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="typeTPL">
+          <nz-select class="FULL_WIDTH" style="text-align: left" formControlName="liste_employe"  (ngModelChange)="onSelectliste()" [(ngModel)]="liste"
+            nzMode="multiple" nzPlaceHolder="liste d'employées..." nzAllowClear>
+            <nz-option *ngFor="let item of users; let i = index" [nzValue]="item"
+              [nzLabel]="item.first_name + ' ' + item.last_name"></nz-option>
+              <nz-option *ngFor="let item of liste; let i = index" [nzValue]="item"
+              [nzLabel]="item.first_name + ' ' + item.last_name"nzHide ></nz-option>
+          </nz-select>
+          <ng-template #typeTPL let-control>
+            <ng-container *ngIf="control.hasError('required')">Veuillez saisir le liste!</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzSpan]="24" nzHasFeedback nzValidatingTip="Validating..."  [nzErrorTip]="first_nameTPL">
+          <input id="Min" nz-input formControlName="MinPersonne" placeholder="minimum de personne dans l'equipe..." type="number"/>
+          <ng-template #first_nameTPL let-control>
+            <ng-container *ngIf="control.hasError('max')">false</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div *ngIf="planningService.typecode === 10">
+    <form nz-form [formGroup]="planningService.validateForm_tache">
+      <nz-form-item>
+        <nz-form-control [nzSpan]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="first_nameTPL">
+          <input nz-input formControlName="titre" placeholder="titre..." />
+          <ng-template #first_nameTPL let-control>
+            <ng-container *ngIf="control.hasError('required')">Veuillez saisir le titre!</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzSpan]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="first_nameTPL">
+          <textarea formControlName="description" nz-input placeholder="description..."
+            [nzAutosize]="{ minRows: 2, maxRows: 6 }"></textarea>
+          <ng-template #first_nameTPL let-control>
+            <ng-container *ngIf="control.hasError('required')">Veuillez saisir la description!</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzSpan]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="dateEndTPL">
+          <nz-date-picker nzPlaceHolder="date de début..." class="FULL_WIDTH"  formControlName="start_date"
+          [nzDisabledDate]="disabledDate"  nzShowTime  (ngModelChange)="onSelectDateTache()"
+           nzFormat="yyyy-MM-dd HH:mm">
+          </nz-date-picker>
+          <ng-template #dateEndTPL let-control>
+            <ng-container *ngIf="control.hasError('required')">Veuillez saisir la date de début!</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzSpan]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="dateEndTPL">
+          <nz-date-picker nzPlaceHolder="date de fin..." class="FULL_WIDTH" formControlName="end_date"
+          [nzDisabledDate]="disabledDateEnd"  #endDatePicker  nzShowTime    
+        nzFormat="yyyy-MM-dd HH:mm">
+          </nz-date-picker>
+          <ng-template #dateEndTPL let-control>
+            <ng-container *ngIf="control.hasError('required')">Veuillez saisir la date de fin!</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzSpan]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="typeTPL">
+          <nz-select class="FULL_WIDTH" style="text-align: left" formControlName="id_Employe"
+            nzPlaceHolder="liste d'employées..." nzAllowClear>
+            <nz-option *ngFor="let item of planningService.liste_employees; let i = index" [nzValue]="item.id"
+              [nzLabel]="item.first_name + ' ' + item.last_name"></nz-option>
+          </nz-select>
+          <ng-template #typeTPL let-control>
+            <ng-container *ngIf="control.hasError('required')">Veuillez saisir le type!</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+</div>

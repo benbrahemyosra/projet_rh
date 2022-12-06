@@ -1,0 +1,18 @@
+.AVATAR {
+  width: 200px;
+  height: 200px;
+  border-radius: 5%;
+  margin-bottom: 25px;
+  cursor: pointer;
+}
+.DETAIL {
+  display: flex;
+}
+
+.descs {
+  display: flex;
+  margin-left: 15px;
+  justify-content: space-evenly;
+  flex-direction: column;
+  text-align: left;
+}

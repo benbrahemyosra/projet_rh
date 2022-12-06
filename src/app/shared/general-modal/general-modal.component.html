@@ -1,0 +1,171 @@
+<nz-modal
+  [(nzVisible)]="CONFIG.isVisible"
+  [nzTitle]="modalTitle"
+  [nzContent]="modalContent"
+  [nzFooter]="modalFooter"
+  [nzClosable]="true"
+  [nzMaskClosable]="
+    CONFIG.name === 'command' || CONFIG.name === 'option_detail'
+  "
+  (nzOnCancel)="handleCancel.emit(CONFIG)"
+  [nzWidth]="CONFIG.width"
+  [nzCentered]="
+    CONFIG.name === 'option' ||
+    CONFIG.name === 'chef' ||
+    CONFIG.name === 'option_detail'
+  "
+>
+  <ng-template #modalTitle>
+    <span *ngIf="CONFIG.name === 'detail-vacation'">Détail congé </span>
+
+    <span *ngIf="CONFIG.name === 'detail-user'">Détail utilisateur </span>
+
+    <span *ngIf="CONFIG.name === 'user' && !CONFIG.edit"
+      >Ajouter utilisateur
+    </span>
+    <span *ngIf="CONFIG.name === 'detail-rapport' "
+    >Détail rapport de votre congé 
+  </span>
+    <span *ngIf="CONFIG.name === 'user' && CONFIG.edit"
+      >Modifier utilisateur
+    </span>
+    
+    <span
+      *ngIf="
+        CONFIG.name !== 'detail-vacation' &&
+        CONFIG.name !== 'detail-user' &&
+        CONFIG.name !== 'user'&&
+        CONFIG.name !== 'detail-rapport'
+      "
+    >
+      {{ CONFIG.edit ? "Modifier" : "Ajouter" }}
+      {{ CONFIG.title_string }}
+    </span>
+  </ng-template>
+
+  
+  <ng-template #modalContent>
+    <app-add-user *ngIf="CONFIG.name === 'user'" [user]="userSercvice.SELECTED_USER" ></app-add-user>
+
+    <app-detail-user *ngIf="CONFIG.name === 'detail-user'"> </app-detail-user>
+
+    <app-add-planning *ngIf="CONFIG.name === 'planning'"> </app-add-planning>
+
+    <app-add-vacation *ngIf="CONFIG.name === 'vacation'"> </app-add-vacation>
+
+    <app-add-tache *ngIf="CONFIG.name === 'tache'"></app-add-tache>
+
+    <app-rapport-conge  *ngIf="CONFIG.name === 'detail-rapport'"></app-rapport-conge>
+
+    <app-detail-vacation *ngIf="CONFIG.name === 'detail-vacation'"></app-detail-vacation>
+    
+    <app-accept *ngIf="CONFIG.name === 'accept'"></app-accept>
+
+    <app-add-type *ngIf="CONFIG.name === 'type conge'"></app-add-type>
+
+    <app-detail-training *ngIf="CONFIG.name === 'training'" [training]="_trainingService.SELECTED_TRAINING"></app-detail-training>
+
+    <app-detail-meeting *ngIf="CONFIG.name === 'meeting'" [meeting]="_meetingService.SELECTED_VACATION"> </app-detail-meeting> 
+
+    <app-add-post *ngIf="CONFIG.name === 'post'"></app-add-post> 
+
+    <app-add-societe *ngIf="CONFIG.name === 'parametre'"></app-add-societe>
+
+    <app-add-type-planning *ngIf="CONFIG.name === 'type planning'"></app-add-type-planning>
+
+    <app-add-tdemande *ngIf="CONFIG.name === 'type demande'"></app-add-tdemande>
+    
+    <app-add-employee *ngIf="CONFIG.name === 'type employee'"></app-add-employee>
+
+    <app-add-option [option]="_optionService.SELECTED_OPTION" *ngIf="CONFIG.name === 'option'" ></app-add-option>
+
+    <app-add-chef *ngIf="CONFIG.name === 'chef'" [chef]="_chefService.SELECTED_CHEF" > </app-add-chef>
+
+    <app-detail-command *ngIf="CONFIG.name === 'command'"></app-detail-command>
+
+    <app-detail-options *ngIf="CONFIG.name === 'option_detail'" ></app-detail-options>
+
+  </ng-template>
+
+  <ng-template #modalFooter>
+    <div *ngIf="CONFIG.name !== 'command'; else elseBlok">
+      <div
+        *ngIf="!rapportService.detail && CONFIG.name !== 'detail-user' ;
+          else elseBlok">
+        <button nz-button nzType="default" (click)="handleCancel.emit(CONFIG)">
+          Annuler
+        </button>
+        <button
+          nz-button
+          nzType="primary"
+          (click)="handleOk.emit(CONFIG)"
+          [nzLoading]="false"
+          [disabled]="CONFIG.disabled_okay_button"
+          *ngIf="((CONFIG.name !== 'user' && CONFIG.name !== 'detail-rapport'&& planningService.type!==10) || planningService.suivant==false || rapportService.rapport.result=='Refus' )
+          ? true: userSercvice.current === 1 ">
+          {{ !CONFIG.edit ? "Ajouter" : "Modifier" }}
+        </button>
+        <button
+        nz-button
+        nzType="primary"
+        (click)="handleOk.emit(CONFIG)"
+        [nzLoading]="false"
+        [disabled]="CONFIG.disabled_okay_button"
+        *ngIf="CONFIG.name === 'detail-rapport' && (rapportService.rapport.result==='Acceptation' || rapportService.rapport.result==='Attente')" >
+        <span  >Valider</span>  
+        </button>
+        <button
+          nz-button
+          nzType="primary"
+          (click)="next()"
+          [disabled]="CONFIG.disabled_okay_button"
+          *ngIf="(((userSercvice.current < 1 && CONFIG.name === 'user')||  planningService.type==10 )&& planningService.suivant==true)">
+          <span>Suivant</span>
+        </button>
+        <button
+          style="float: left"
+          nz-button
+          nzType="default"
+          (click)="pre()"
+          *ngIf="(userSercvice.current > 0 && CONFIG.name === 'user') || planningService.posttache==true">
+          <span>Précédent</span>
+        </button>
+      </div>
+      <ng-template #elseBlok></ng-template>
+    </div>
+    <ng-template #elseBlok>
+      <form
+        class="flex"
+        nz-form
+        #statusForm="ngForm"
+        (ngSubmit)="submit(statusForm.value)"
+      >
+        <nz-select
+          style="text-align: left"
+          name="status"
+          nzPlaceHolder="Changer le status du commande..."
+          ngModel
+          nzAllowClear
+        >
+          <nz-option
+            *ngFor="let item of _commandService.STATUS"
+            [nzValue]="item.value"
+            [nzLabel]="item.name"
+          ></nz-option>
+        </nz-select>
+        &nbsp;
+        <button
+          [disabled]="
+            statusForm.value.status === '' || statusForm.value.status === null
+          "
+          type="submit"
+          nz-button
+          nzType="primary"
+        >
+          <i nz-icon nzType="save" nzTheme="outline"></i>
+          Enregistrer
+        </button>
+      </form>
+    </ng-template>
+  </ng-template>
+</nz-modal>

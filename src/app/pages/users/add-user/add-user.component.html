@@ -1,0 +1,305 @@
+<nz-steps [nzCurrent]="userService.current">
+  <nz-step nzTitle="Information utilisateur" nzDescription=""></nz-step>
+  <nz-step nzTitle="Information pro" nzDescription=""></nz-step>
+</nz-steps>
+<div class="steps-content">
+  <div *ngIf="userService.current === 0">
+    <form
+      nz-form
+      [formGroup]="userService.validateForm"
+      (ngSubmit)="submitForm(userService.validateForm.value)"
+    >
+      <nz-form-item>
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          nzValidatingTip="Validating..."
+          [nzErrorTip]="first_nameTPL"
+        >
+          <input nz-input formControlName="first_name" placeholder="Nom..." />
+          <ng-template #first_nameTPL let-control>
+            <ng-container *ngIf="control.hasError('required')"
+              >Veuillez saisir le nom!</ng-container
+            >
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          nzValidatingTip="Validating..."
+          [nzErrorTip]="last_nameTPL"
+        >
+          <input nz-input formControlName="last_name" placeholder="Prenom..." />
+          <ng-template #last_nameTPL let-control>
+            <ng-container *ngIf="control.hasError('required')"
+              >Veuillez saisir le prénom!</ng-container
+            >
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          nzValidatingTip="Validating..."
+          [nzErrorTip]="dateEndTPL"
+        >
+          <nz-date-picker
+            nzPlaceHolder="date de naissance..."
+            class="FULL_WIDTH"
+            formControlName="birth_date"
+          >
+          </nz-date-picker>
+          <ng-template #dateEndTPL let-control>
+            <ng-container *ngIf="control.hasError('required')"
+              >Veuillez saisir la date de fin!</ng-container
+            >
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          nzValidatingTip="Validating..."
+          [nzErrorTip]="typeTPL"
+        >
+          <nz-select
+            class="FULL_WIDTH"
+            style="text-align: left"
+            formControlName="type_employee"
+            nzPlaceHolder="Type employée..."
+            nzAllowClear
+          >
+            <nz-option
+              *ngFor="let item of types"
+              [nzValue]="item.id"
+              [nzLabel]="item.name"
+            ></nz-option>
+          </nz-select>
+          <ng-template #typeTPL let-control>
+            <ng-container *ngIf="control.hasError('required')"
+              >Veuillez saisir le type!</ng-container
+            >
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          nzValidatingTip="Validating..."
+          [nzErrorTip]="typeTPL"
+        >
+          <nz-select
+            class="FULL_WIDTH"
+            style="text-align: left"
+            formControlName="departement"
+            nzPlaceHolder="Départment..."
+            nzAllowClear
+          >
+            <nz-option
+              *ngFor="let item of departments"
+              [nzValue]="item.id"
+              [nzLabel]="item.label"
+            ></nz-option>
+          </nz-select>
+          <ng-template #typeTPL let-control>
+            <ng-container *ngIf="control.hasError('required')"
+              >Veuillez saisir le type!</ng-container
+            >
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          nzValidatingTip="Validating..."
+          [nzErrorTip]="typeTPL"
+        >
+          <nz-select
+            class="FULL_WIDTH"
+            style="text-align: left"
+            formControlName="poste_id"
+            nzPlaceHolder="Poste employée..."
+            nzAllowClear
+          >
+            <nz-option
+              *ngFor="let item of posts"
+              [nzValue]="item?.id"
+              [nzLabel]="item?.name_post"
+            ></nz-option>
+          </nz-select>
+          <ng-template #typeTPL let-control>
+            <ng-container *ngIf="control.hasError('required')"
+              >Veuillez saisir la poste!</ng-container
+            >
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          [nzErrorTip]="email_errorTPL"
+        >
+          <input
+            nz-input
+            formControlName="email"
+            placeholder="email..."
+            type="email"
+          />
+          <ng-template #email_errorTPL let-control>
+            <ng-container *ngIf="control.hasError('pattern')"
+              >L'entrée n'est pas valide!</ng-container
+            >
+            <ng-container *ngIf="control.hasError('required')"
+              >Veuillez saisir votre e-mail!</ng-container
+            >
+            <ng-container *ngIf="control.hasError('duplicated')"
+              >L'email est existant!</ng-container
+            >
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          nzErrorTip="Veuillez saisir le mot de passe!"
+        >
+          <input
+            nz-input
+            type="password"
+            formControlName="password"
+            placeholder="Mot de passe..."
+            (ngModelChange)="validateConfirmPassword()"
+          />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          [nzErrorTip]="password_errorTPL"
+        >
+          <input
+            nz-input
+            type="password"
+            formControlName="confirm"
+            placeholder="Confirmer mot de passe..."
+          />
+          <ng-template #password_errorTPL let-control>
+            <ng-container *ngIf="control.hasError('required')"
+              >Veuillez confirmer votre mot de passe!</ng-container
+            >
+            <ng-container *ngIf="control.hasError('confirm')"
+              >Le mot de passe est incohérent!</ng-container
+            >
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div *ngIf="userService.current === 1">
+    <form
+      nz-form
+      [formGroup]="userService.validateForm_private"
+      (ngSubmit)="submitForm(userService.validateForm.value)">
+      <nz-form-item>
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          nzValidatingTip="Validating..."
+          [nzErrorTip]="adresseTPL">
+          <input nz-input formControlName="city" placeholder="Pays..." />
+          <ng-template #adresseTPL let-control>
+            <ng-container *ngIf="control.hasError('required')">Veuillez saisir l'adresse!</ng-container>
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          nzValidatingTip="Validating..."
+          [nzErrorTip]="adresseTPL"
+        >
+          <input nz-input formControlName="adress" placeholder="Adresse..." />
+          <ng-template #adresseTPL let-control>
+            <ng-container *ngIf="control.hasError('required')"
+              >Veuillez saisir l'adresse!</ng-container
+            >
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          nzValidatingTip="Validating..."
+          [nzErrorTip]="phoneTPL"
+        >
+          <input
+            nz-input
+            type="number"
+            formControlName="phoneHome"
+            placeholder="telephone..."
+          />
+          <ng-template #phoneTPL let-control>
+            <ng-container *ngIf="control.hasError('required')"
+              >Veuillez saisir le telephone!</ng-container
+            >
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          nzValidatingTip="Validating..."
+          [nzErrorTip]="num_bankTPL"
+        >
+          <input
+            nz-input
+            type="number"
+            formControlName="phonePro"
+            placeholder="Télephone pro..."
+          />
+          <ng-template #num_bankTPL let-control>
+            <ng-container *ngIf="control.hasError('required')"
+              >Veuillez saisir le numero bancaire!</ng-container
+            >
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control
+          [nzSpan]="24"
+          nzHasFeedback
+          nzValidatingTip="Validating..."
+          [nzErrorTip]="dateEndTPL"
+        >
+          <nz-date-picker
+            nzPlaceHolder="Date de début d'emplois..."
+            class="FULL_WIDTH"
+            formControlName="date_arrive"
+          >
+          </nz-date-picker>
+          <ng-template #dateEndTPL let-control>
+            <ng-container *ngIf="control.hasError('required')"
+              >Veuillez saisir la date!</ng-container
+            >
+          </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+</div>

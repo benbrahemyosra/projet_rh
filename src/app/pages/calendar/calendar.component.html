@@ -1,0 +1,18 @@
+<!-- <nz-calendar>
+  <ul *nzDateCell="let date" class="events">
+    <ng-container [ngSwitch]="date.getDate()">
+      <div *ngFor="let item of finalArray">
+        <ng-container *ngSwitchCase="item.date">
+          <nz-badge [nzStatus]="item.type" [nzText]="item.objectif"></nz-badge>
+        </ng-container>
+      </div>
+    </ng-container>
+  </ul>
+  <ng-container *nzMonthCell="let month">
+    <div *ngIf="getMonthData(month) as monthData" class="notes-month">
+      <section>{{ monthData }}</section>
+      <span>Backlog number</span>
+    </div>
+  </ng-container>
+</nz-calendar> -->
+<full-calendar [options]="calendarOptions"></full-calendar>

@@ -1,0 +1,124 @@
+<nz-layout class="app-layout">
+  <nz-sider
+    nzCollapsible
+    nzWidth="256px"
+    nzBreakpoint="md"
+    [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null"
+  >
+    <div class="sidebar-logo">
+      <a href="javascript:void(0)">
+        <h1>RESSOURCES HUMAINES</h1>
+      </a>
+    </div>
+    
+    <ul
+      nz-menu
+      nzTheme="dark"
+      nzMode="inline"
+      [nzInlineCollapsed]="isCollapsed"
+    >
+      <li nz-menu-item nzMatchRouter nzIcon="usergroup-add" >
+        <i nz-icon nzType="calendar" nzTheme="outline"></i>
+        <span><a routerLink="/home/calendar">Calendrier</a></span>
+      </li>
+
+      <li nz-menu-item nzMatchRouter nzIcon="usergroup-add">
+        <i nz-icon nzType="hourglass" nzTheme="outline"></i>
+        <span><a routerLink="/home/pointage">Pointage</a></span>
+      </li>
+      <li nz-menu-item nzMatchRouter nzIcon="usergroup-add" >
+        <i nz-icon nzType="hourglass" nzTheme="outline"></i>
+        <span><a routerLink="/home/planning">Planning</a></span>
+      </li>
+      <li nz-menu-item nzMatchRouter nzIcon="usergroup-add" >
+        <i nz-icon nzType="usergroup-add" nzTheme="outline"></i>
+        <span><a routerLink="/home/users">Liste des utilisateurs</a></span>
+      </li>
+      <li nz-submenu nzOpen nzTitle="Les demandes" nzIcon="unordered-list">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <span><a routerLink="/home/conge">Liste des congés</a></span>
+          </li>
+          <li nz-menu-item nzMatchRouter  *ngIf="_appService.role=='admin'">
+            <span><a routerLink="/home/demandes">Liste des demandes</a></span>
+          </li>
+        </ul>
+      </li>
+
+      <li nz-submenu nzOpen nzTitle="Les paramétres" nzIcon="unordered-list" *ngIf="_appService.role=='admin'">
+        <ul>
+
+          <li nz-menu-item nzMatchRouter>
+            <span
+              ><a routerLink="/home/settings/post">postes</a></span
+            >
+          </li>
+
+          <li nz-menu-item nzMatchRouter>
+            <span
+              ><a routerLink="/home/settings/typeEmployee">types employées</a></span
+            >
+          </li>
+
+          <li nz-menu-item nzMatchRouter>
+            <span
+              ><a routerLink="/home/settings/typePlanning">types planning</a></span
+            >
+          </li>
+
+          <li nz-menu-item nzMatchRouter>
+            <span
+              ><a routerLink="/home/settings/typeDemande">types demandes</a></span
+            >
+          </li>
+
+          <li nz-menu-item nzMatchRouter>
+            <span
+              ><a routerLink="/home/settings/typeConge">types conges</a></span
+            >
+          </li>
+
+          <li nz-menu-item nzMatchRouter>
+            <span
+              ><a routerLink="/home/settings/parametres">Parametres entreprise </a></span
+            >
+          </li>
+
+        </ul>
+      </li>
+
+      <li
+        style="bottom: 0px; position: absolute"
+        nz-menu-item
+        nzMatchRouter
+        nzIcon="logout"
+      >
+        <i nz-icon nzType="logout" nzTheme="outline"></i>
+        <span>
+          <a href="javascript:void(0)" (click)="logout()">Se déconnecter</a>
+        </span>
+
+      </li>
+    </ul>
+    
+  </nz-sider>
+  <nz-layout [class]="getClass()">
+    <nz-header>
+      <div class="app-header">
+        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+          <i
+            class="trigger"
+            nz-icon
+            [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+          ></i>
+        </span>
+      </div>
+    </nz-header>
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

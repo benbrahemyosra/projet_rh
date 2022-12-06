@@ -1,0 +1,102 @@
+/* You can add global styles to this file, and also import other style files */
+.ant-modal-close-x {
+  line-height: 35px;
+  width: 35px;
+  height: 35px;
+  color: white;
+  background: #1890ff;
+  border-radius: 50%;
+}
+
+.ant-modal-close{
+  top: -15px;
+  right: -15px;
+  box-shadow: -3px 5px 8px grey;
+  border-radius: 50%;
+}
+
+.ant-image-preview-switch-left,
+.ant-image-preview-switch-right {
+  background: rgb(10 73 140);
+}
+.ant-page-header {
+  padding: 16px 0px;
+}
+
+.ant-input {
+  height: 40px;
+}
+
+.ant-picker-input {
+  height: 30px;
+}
+
+.ant-btn {
+  height: 40px;
+}
+
+.ant-input-number-input {
+  height: 40px;
+}
+
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  height: 40px;
+}
+
+.ant-select-single .ant-select-selector .ant-select-selection-item,
+.ant-select-single .ant-select-selector .ant-select-selection-placeholder {
+  line-height: 40px;
+}
+
+.flex {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.IMAGE_SHOW {
+  object-fit: cover;
+  max-height: 200px;
+  width: -webkit-fill-available;
+  cursor: pointer;
+  user-drag: none;
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+.ant-form-item-label > label {
+  font-size: 16px;
+}
+
+.ant-modal-title {
+  font-size: 20px;
+}
+
+.ant-modal {
+  top: 2vh !important;
+  padding-bottom: unset;
+}
+
+.ant-modal-content {
+  border-radius: 15px;
+}
+
+.ant-modal-header {
+  border-radius: 15px 15px 0px 0px;
+}
+
+.ant-modal-body {
+  max-height: 84vh;
+  overflow: auto;
+}
+
+.ant-input[disabled] {
+  color: rgb(0 0 0 / 100%);
+}
+
+.ant-back-top {
+  bottom: 10px;
+  right: 10px;
+}

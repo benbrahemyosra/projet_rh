@@ -1,0 +1,70 @@
+<div style='border: solid;'>
+    <div fxLayout="column" fxLayoutAlign="space-between start" style="padding-left:50px; padding-top:20px;">
+
+        <li>
+            <span style="font-weight:bold ">
+                Nom et Prénom :
+            </span>{{rapportService.rapport.name}}
+        </li>
+        <li>
+            <span style="font-weight:bold "> Adresse: </span> {{rapportService.rapport.adresse}}
+        </li>
+    </div>
+    <br />
+    <div fxLayout="column" fxLayoutAlign="space-between start" style="padding-left:500px; padding-top:20px">
+
+        <li>
+            <span style="font-weight:bold"> Nom Employeur:</span> Kalil Ben Romdhan
+        </li>
+        <li>
+            <span style="font-weight:bold"> Adresse: </span>khalilbenromdhan@gmail.com
+        </li>
+    </div>
+    <div style="padding-left:50px; padding-top:10px">
+        <li style="font-weight:bold">
+            A mahdia, le {{rapportService.rapport.date_creation}}
+        </li>
+        <br />
+        <p style="  text-align: justify    ">
+            Lettre recommandée avec accusé de réception ou Lettre remise en main propre contre signature </p>
+    </div>
+    <div style="font-weight:bold;padding-left:50px; padding-top:10px">
+        <span style="font-weight:bold;padding-left:30px; padding-top:10px"> Objet: {{ rapportService.rapport.result}}
+            suite à votre demande de {{ rapportService.rapport.typeconge}}
+        </span>
+    </div>
+    <br />
+    <br />
+    <span style="padding-left:40px; padding-top:50px"> Madame/Monsieur,</span>
+    <div style="padding-left:40px; padding-top:10px">
+        <p >
+            Vous avez sollicité le bénéfice d’un {{rapportService.rapport.typeconge}} d’une durée de<strong>
+                {{rapportService.rapport.nbJourEffectue}} jours</strong> à compter du
+            <strong>{{rapportService.rapport.date_debutConge}}</strong>.
+            Nous vous informons, par la présente, que nous ne pouvons accéder à votre demande.
+        </p>
+        <p *ngIf=" this.rapportService.rapport.result=='Acceptation'">Nous avons le plaisir de vous donner notre accord
+            pour ce congé qui durera du <strong>{{rapportService.rapport.date_debutConge}}</strong> au
+            <strong>{{rapportService.rapport.datefinConge}}</strong>.<br />
+            votre retour au sein de l'entreprise est fixé au <strong> {{
+                rapportService.rapport.nextDay}}</strong>.<br />
+            j'attire votre attention sur le fait que, durant cette periode, vous ne pouvez pas excercé d'activité
+            professionnelle,
+            à l'exception de <strong>{{rapportService.rapport.raison}}</strong>.
+        </p>
+        <div *ngIf=" this.rapportService.rapport.result!='Acceptation'">
+            <span>En effet, l'explication:</span>
+            <p><strong>{{rapportService.rapport.reponse}}</strong></p>
+        </div>
+          
+        <p *ngIf="rapportService.rapport.code=='2' && this.rapportService.rapport.result=='Acceptation'">Enfin, en
+            ce qui concerne votre rénumération, elle vous sera
+            versée intégralement pendant tout le congé</p>
+        <p *ngIf="rapportService.rapport.code=='3' && this.rapportService.rapport.result=='Acceptation'">Enfin, en
+            ce qui concerne votre rénumération, elle sera
+            suspendue pendant tout le congé</p>
+
+        <p>Nous vous prions d’agréer, Madame/Monsieur, l’expression de notre considération distinguée.</p>
+    </div>
+   
+</div>
