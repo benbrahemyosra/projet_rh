@@ -321,6 +321,7 @@ export class AppComponent implements OnInit {
           };
           this.rapportService.getResultatRapport(form).subscribe((res: any) => {
           this.rapportService.rapport=res;
+          this.rapportService.result=res.result;
           this._appService.MODALS_NUMBER.push('detail-rapport');
             let send_date=new Date( this.rapportService.rapport.datefinConge);
              send_date.setDate(send_date.getDate()+1);
@@ -886,7 +887,7 @@ export class AppComponent implements OnInit {
           .addTypeDemande(this.typeDemandeService.validateForm?.value)
           .subscribe((res: any) => {
             this.typeDemandeService.getTypeDemande(1).subscribe((res: any) => {
-              this.typeDemandeService.table.data = res.data;
+              this.typeDemandeService.table.data = res;
               this.typeDemandeService.total = res.total;
               this.tableService.isLoading = false;
 

@@ -101,7 +101,7 @@
           (click)="handleOk.emit(CONFIG)"
           [nzLoading]="false"
           [disabled]="CONFIG.disabled_okay_button"
-          *ngIf="((CONFIG.name !== 'user' && CONFIG.name !== 'detail-rapport'&& planningService.type!==10) || planningService.suivant==false || rapportService.rapport.result=='Refus' )
+          *ngIf="((CONFIG.name !== 'user' && CONFIG.name !== 'detail-rapport'&& planningService.type!==10) || planningService.suivant==false ||  rapportService.result=='Refus' )
           ? true: userSercvice.current === 1 ">
           {{ !CONFIG.edit ? "Ajouter" : "Modifier" }}
         </button>
@@ -111,7 +111,7 @@
         (click)="handleOk.emit(CONFIG)"
         [nzLoading]="false"
         [disabled]="CONFIG.disabled_okay_button"
-        *ngIf="CONFIG.name === 'detail-rapport' && (rapportService.rapport.result==='Acceptation' || rapportService.rapport.result==='Attente')" >
+        *ngIf="CONFIG.name === 'detail-rapport' && (rapportService.result==='Acceptation' || rapportService.result==='Attente')" >
         <span  >Valider</span>  
         </button>
         <button

@@ -129,10 +129,8 @@ onSelectliste(){
   if( this.planningService.numberOfEmplo > 0)
 {
   this.selectedListe=true;
-  console.log( this.planningService.numberOfEmplo);
   this.planningService.validateForm_general.controls.MinPersonne.enable();
   this.planningService.numberOfEmplo=this.planningService.validateForm_general.controls.liste_employe.value.length;
-  console.log( this.planningService.numberOfEmplo);
 }
 }
 selectChangeHandler (event: any) {

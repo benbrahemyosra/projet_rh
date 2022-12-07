@@ -48,7 +48,6 @@ export class GeneralModalComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {  
-   
   }
   submit(form: NgForm) {
     this.submitCommand.emit({ form, config: this.CONFIG });
