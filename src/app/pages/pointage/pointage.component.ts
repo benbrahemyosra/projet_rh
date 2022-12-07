@@ -72,26 +72,8 @@ export class PointageComponent implements OnInit {
     console.log(form.date);
   }
 
-  add(): void { }
-
-  btnClicked(e): void {
-    if (e.btn.name === 'Accepter') {
-      this.pointageService.SELECTED_POST = this.pointageService.table.data[e.index];
-
-      this.pointageService.isVisible = true;
-      this._APP_SERVICE.MODALS_NUMBER.push('accept');
-    } 
-
-    if (e.btn.name === 'Refuser') {
-      this.pointageService.SELECTED_POST = this.pointageService.table.data[e.index];
-
-      this.pointageService.isVisible = true;
-      this._APP_SERVICE.MODALS_NUMBER.push('refus');
-    } 
-   }
    Addstartday()
    {
-    this.timerService.startTimer();
     let currentDateTime =this.datepipe.transform((new Date), 'YYYY-MM-dd h:mm:ss');
     this.DataStart={
       date:currentDateTime,
@@ -109,6 +91,7 @@ export class PointageComponent implements OnInit {
       confirmButtonText: 'Ok',
     })
    }else{
+    this.timerService.startTimer();
     this.clickedstart=true 
     this.clickedPause=false
     this.clickedendOfDay=false;
@@ -118,6 +101,7 @@ export class PointageComponent implements OnInit {
    })
   }
 AddPausse(str){
+  this.radioValue='B';
   switch(str){
    case "clickedPause":
     this.timerService.pauseTimer();
@@ -152,8 +136,10 @@ AddPausse(str){
       this.clickedPause=true;
       this.str="clickedEndDay";
       let date =this.datepipe.transform((new Date), 'YYYY-MM-dd h:mm:ss');
-      this.pointageService.AddDatePause(date, localStorage.getItem('idPointage'),this.str,this.nbHeure as number).subscribe(res=>{        this.getTimePointOFuser({ page: 1 });
-  
+      this.pointageService.AddDatePause(date, localStorage.getItem('idPointage'),this.str,this.nbHeure as number).subscribe(res=>
+      {this.getTimePointOFuser({ page: 1 });
+      this.disabledButton();
+
       })
         }
       });
@@ -190,7 +176,13 @@ AddPausse(str){
     this._tableService.isLoading = false;
     })
   }
-  pageChanged(e): void { }
+  pageChanged(page: number): void {
+    if( this.radioValue == 'A'){
+      this.getAllDatePointage(page)
+    }else{
+      this.getTimePointOFuser(page)
+    }
+   }
   disabledButton(){
     this.pointageService.getPosition(localStorage.getItem('iduser')).subscribe(res=>{
       this.position=res
@@ -218,6 +210,13 @@ AddPausse(str){
              this.clickedEndPause=true;
              this.clickedendOfDay=false;
            break;
+           case "5":
+            console.log(this.position[0].position);
+                 this.clickedstart=true;
+                 this.clickedPause=true;
+                 this.clickedEndPause=true;
+                 this.clickedendOfDay=true;
+               break;
        default:
         console.log(this.position[0].position);
          this.clickedstart=false;

@@ -39,8 +39,9 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item *ngIf="vacationService.typeSelect=='1'">
-    <nz-form-control  [nzSpan]="24">
-          <input nz-input formControlName="imageName" placeholder="titre..." type="file" (change)="selectFile($event)" />
+    <nz-form-control  [nzSpan]="28">
+          <input nz-input formControlName="imageName" [placeholder]="nameFile"   id="inp" style=" height:44px"  type="file" (change)="selectFile($event)" />
+
   </nz-form-control>
     </nz-form-item>
     

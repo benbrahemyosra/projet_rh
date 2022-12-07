@@ -136,8 +136,8 @@ export class VacationService {
       params: data
     })
   }
-  getVacationById(id){
-    return this.http.get(environment.api + 'mes_conges/'+id)
+  getVacationById(id,data){
+    return this.http.get(environment.api + 'mes_conges/'+id,{params:data})
   }
   getVacationByQuery(data): Observable<any> {
     return this.http.get(environment.api + 'search_Conges',{params:data})
@@ -145,11 +145,12 @@ export class VacationService {
    }
 
   addVacations(data: any) {
+    console.log(data)
     return this.http.post(environment.api + 'conges', data)
   }
 
-  updateVacations(data: any) {
-    return this.http.put(environment.api + 'conges/' + this.SELECTED_VACATION.id, data)
+  updateVacations(data: any,id) {
+    return this.http.put(environment.api + 'conges/'+id,data)
   }
 
   getAllTypes() {

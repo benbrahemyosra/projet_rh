@@ -37,6 +37,6 @@
   <br />
   <br />
 </div>
-  <app-table [table]="table" (btnClicked)="btnClicked($event)" [total]="pointageService.total"
+  <app-table [table]="table" [total]="pointageService.total"
     (pageChangedEvent)="pageChanged($event)"></app-table>
 </div>

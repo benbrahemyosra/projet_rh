@@ -81,7 +81,7 @@ export class AppComponent implements OnInit {
           width: "50vw",
           edit: this._demandsService.SELECTED_DEMAND,
           title_string: "un demande",
-          disabled_okay_button: null,
+          disabled_okay_button: false,
         };
        
       case "type conge":
@@ -307,7 +307,6 @@ export class AppComponent implements OnInit {
   handleOk(config: IModalConfig): void {
     if (config.name === "vacation") {
       if (!config.edit) {
-        this.tableService.isLoading = true;
         this.vactionService.validateFormAdd.value.date_debut = moment(
           this.vactionService.validateFormAdd.value.date_debut
         ).format("YYYY-MM-DD");
@@ -330,29 +329,6 @@ export class AppComponent implements OnInit {
             this.rapportService.rapport.nbJourEffectue= this.rapportService.rapport.nbJourEffectue
             this.rapportService.SELECTED_RAPPORT=null;
             this.rapportService.isVisible = true;
-            if(localStorage.getItem('role')=='employee'){
-              this.vactionService.getVacationById(localStorage.getItem('iduser')).subscribe((res: any) => {
-                if( this.vactionService.Tvisiblity.length!==0){
-                  this.vactionService.clearArray( this.vactionService.Tvisiblity);
-                    }
-                for (let item of res) {
-                  if(item.code_typeC=='1'){
-                    this.vactionService.Tvisiblity.push(true)
-                  }else{
-                    this.vactionService.Tvisiblity.push(false)
-                   }
-                  }
-                this.vactionService.table.data = res.data;
-                this.vactionService.total = res.total;
-                this.tableService.isLoading = false;
-              });
-            }else{
-            this.vactionService.getAllVacations(1).subscribe((res: any) => {
-              this.vactionService.table.data = res.data;
-              this.vactionService.total = res.total;
-              this.tableService.isLoading = false;
-            });
-            }
       });
         this.handleCancel(config);
       } else {
@@ -363,10 +339,19 @@ export class AppComponent implements OnInit {
         this.vactionService.validateFormAdd.value.date_end = moment(
           this.vactionService.validateFormAdd.value.date_end
         ).format("YYYY-MM-DD");
+        let image= this.rapportService.image;
+        let status=this.vactionService.SELECTED_VACATION.status;
+        let idUser=localStorage.getItem('iduser')
+        console.log(status)
+        let form = {
+         ...this.vactionService.validateFormAdd?.value,
+         image,
+         status
+         };
         this.vactionService
-          .updateVacations(this.vactionService.validateFormAdd?.value)
+          .updateVacations(form,this.vactionService.SELECTED_VACATION.id)
           .subscribe((res: any) => {
-            this.vactionService.getAllVacations(1).subscribe((res: any) => {
+            this.vactionService.getVacationById(localStorage.getItem('iduser'),{page:1}).subscribe((res: any) => {
               if( this.vactionService.Tvisiblity.length!==0){
                 this.vactionService.clearArray( this.vactionService.Tvisiblity);
                   }
@@ -381,34 +366,38 @@ export class AppComponent implements OnInit {
               this.vactionService.total = res.total;
               this.tableService.isLoading = false;
             });
+              
           });
         this.handleCancel(config);
       }
     }else if (config.name === 'detail-rapport') {
-      this.rapportService.rapport.image=this.rapportService.image;
-     // console.log(this.rapportService.rapport.image)
+      this.rapportService.rapport.image=this.rapportService.image; 
+      this.rapportService.rapport.idUser=localStorage.getItem('iduser');
       console.log(this.rapportService.rapport)
-      if(this.rapportService.rapport.result=='Refus' && this.rapportService.rapport.code=='2' ){
+      if(this.rapportService.rapport.result=='Refus' && this.rapportService.rapport.code!='1' ){
         this.rapportService.rapport.result='Attente';
       }
       this.vactionService.addVacations(this.rapportService.rapport).subscribe(res=>{
         console.log(res);
-        this.vactionService.getVacationById(localStorage.getItem('iduser')).subscribe((res: any) => {
-          if( this.vactionService.Tvisiblity.length!==0){
-            this.vactionService.clearArray( this.vactionService.Tvisiblity);
+        this.tableService.isLoading = true;;
+          this.vactionService.getVacationById(localStorage.getItem('iduser'),{page:1}).subscribe((res: any) => {
+            if( this.vactionService.Tvisiblity.length!==0){
+              this.vactionService.clearArray( this.vactionService.Tvisiblity);
+                }
+            for (let item of res.data) {
+              if(item.code_typeC=='1'){
+                this.vactionService.Tvisiblity.push(true)
+              }else{
+                this.vactionService.Tvisiblity.push(false)
+               }
               }
-          for (let item of res) {
-            if(item.code_typeC=='1'){
-              this.vactionService.Tvisiblity.push(true)
-            }else{
-              this.vactionService.Tvisiblity.push(false)
-             }
-            }
-          this.vactionService.table.data = res.data;
-          this.vactionService.total = res.total;
-          this.tableService.isLoading = false;
+            this.vactionService.table.data = res.data;
+            this.vactionService.total = res.total;
+            this.tableService.isLoading = false;
+          });
+        
         });
-      });
+         
       this.handleCancel(config);
 
       } else if (config.name === 'accept'){
@@ -423,7 +412,7 @@ export class AppComponent implements OnInit {
           ...this._demandsService.validateForm?.value,
          result
         };
-          this.vactionService.updateVacations(form).subscribe(res=>{
+          this.vactionService.updateVacations(form,this.vactionService.SELECTED_VACATION.id).subscribe(res=>{
             console.log(res);
             this.tableService.isLoading = true;
             this._demandsService.getDemandsBystatus(1).subscribe((res: any) => {

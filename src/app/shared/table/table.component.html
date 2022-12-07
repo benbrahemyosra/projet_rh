@@ -4,8 +4,10 @@
     <thead>
       <tr>
         <th *ngIf="_router.url === '/home/planning'"></th>
-          <th id="header" [nzSortFn]="item.sortFn" [nzSortDirections]="item.sortDirections" *ngFor="let item of table.header" >
+        <ng-container *ngFor="let item of table.header" >
+          <th id="header" [nzSortFn]="item.sortFn" [nzSortDirections]="item.sortDirections" *ngIf="item.visible"  >
             {{ item.name }}
+          </ng-container>
       </tr>
     </thead>
     <tbody>

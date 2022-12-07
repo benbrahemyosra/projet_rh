@@ -27,11 +27,12 @@ export class AddVacationComponent implements OnInit {
   startValue: Date | null = null;
   endValue: Date | null = null;
   send_date;
+  inp;
   newstartdate;
   typeConge;
   uploading = false;
   fileList: NzUploadFile[] = [];
-  
+  nameFile:string;
   constructor(
     private fb: FormBuilder,
     public vacationService: VacationService,
@@ -65,9 +66,12 @@ export class AddVacationComponent implements OnInit {
       this.vacationService.validateFormAdd.controls.codeTypeConge.patchValue(
         this.vacationService.SELECTED_VACATION.TypeConge
       )
-    }
+      if( this.vacationService.SELECTED_VACATION.certificat!=null ){
+ 
+          }
   }
-  
+}
+
   onSelect(){
     this.newstartdate=new Date( this.vacationService.validateFormAdd.controls.date_debut.value);
     this.startValue=this.newstartdate
@@ -75,6 +79,7 @@ export class AddVacationComponent implements OnInit {
 }
 selectFile(event: Event) {
   const file      = (event.target as HTMLInputElement).files[0];
+  console.log(file);
   this.imageName  = file.name;
   // Preview image
    if (file) {
@@ -122,7 +127,6 @@ disabledEndDate = (endValue: Date): boolean => {
     return endValue.getTime() <= this.send_date.getTime();
   };
   onSelectTYPE(e) {
-    
     console.log(e)
     for( let item of this.typeConge){
          if(item.name==e){

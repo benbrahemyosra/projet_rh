@@ -40,10 +40,10 @@ export class VacationComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if(localStorage.getItem('role')=='admin'){
+    if(localStorage.getItem('role')=='admin' ||  this.radioValue == 'A'){
     this.getAllVactions(1);}
     else{
-       this.getVacationById();
+       this.getVacationById(1);
     }
     this.gettypeConge();
     this.vacationService.filters.filters[1].select_data=this.status;
@@ -61,13 +61,13 @@ export class VacationComponent implements OnInit {
     }, 1500);
     console.log(form);
   }
-    getVacationById( ){
+    getVacationById(page:number ){
       this._tableService.isLoading = true;
-      this.vacationService.getVacationById(localStorage.getItem('iduser')).subscribe((res: any) => {
+      this.vacationService.getVacationById(localStorage.getItem('iduser'),{page:page}).subscribe((res: any) => {
        if( this.vacationService.Tvisiblity.length!==0){
         this.vacationService.clearArray( this.vacationService.Tvisiblity);
           }
-      for (let item of res) {
+      for (let item of res.data) {
         if(item.code_typeC=='1'){
           this.vacationService.Tvisiblity.push(true)
         }else{
@@ -76,7 +76,7 @@ export class VacationComponent implements OnInit {
         }
           console.log( this.vacationService.Tvisiblity);
       this.vacationService.total = res.total;
-      this.vacationService.table.data = res;
+      this.vacationService.table.data = res.data;
       if( this.vacationService.table.header.length==7){
       this.vacationService.table.header.splice(0,1);
       }
@@ -90,7 +90,7 @@ export class VacationComponent implements OnInit {
         this.vacationService.getVacationByIDVacation(this.rapportService.SELECTED_RAPPORT.id).subscribe((res: any) => {
           this.rapportService.detail=true;
           this.rapportService.rapport=res;
-          if(this.rapportService.rapport.result=='Refus'){
+          if(res.updateComment != null ){
             this.rapportService.rapport.reponse=res.updateComment;
           }
           this._APP_SERVICE.MODALS_NUMBER.push('detail-rapport');
@@ -101,7 +101,7 @@ export class VacationComponent implements OnInit {
 
         console.log(this.table.data[event.index].certificat)
         const downloadLink = document.createElement('a');
-        const fileName = 'sample.pdf';
+        const fileName = 'certificat.pdf';
         downloadLink.href =this.table.data[event.index].certificat ;
         downloadLink.download = fileName;
         downloadLink.click();
@@ -173,15 +173,20 @@ gettypeConge(){
 
   })
 }
-  pageChanged(e: number): void {
-    this.getAllVactions(e)
+  pageChanged(page: number): void {
+    if( this.radioValue == 'A'){
+      this.getAllVactions(page)
+
+    }else{
+      this.getVacationById(page)
+    }
 
   }
   getAll(e){
     this.getAllVactions(1);
   }
   getbyid(){
-    this.getVacationById();
+    this.getVacationById(1);
 
   }
 }
