@@ -93,6 +93,7 @@ import { AddEmployeeComponent } from './pages/settings/type-employee/add-employe
 import { AddTypePlanningComponent } from './pages/settings/type-planning/add-type-planning/add-type-planning.component';
 import { RapportCongeComponent } from './pages/rapport-conge/rapport-conge.component';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
+import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 
 registerLocaleData(fr);
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
@@ -189,7 +190,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     NzBackTopModule,
     NzTypographyModule,
     NzEmptyModule,
-    FullCalendarModule
+    FullCalendarModule,
+    NzTimePickerModule
   ],
   providers: [{ provide: NZ_I18N, useValue: fr_FR },
   {

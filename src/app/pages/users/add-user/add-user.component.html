@@ -213,14 +213,13 @@
       [formGroup]="userService.validateForm_private"
       (ngSubmit)="submitForm(userService.validateForm.value)">
       <nz-form-item>
-        <nz-form-control
-          [nzSpan]="24"
-          nzHasFeedback
-          nzValidatingTip="Validating..."
-          [nzErrorTip]="adresseTPL">
-          <input nz-input formControlName="city" placeholder="Pays..." />
-          <ng-template #adresseTPL let-control>
-            <ng-container *ngIf="control.hasError('required')">Veuillez saisir l'adresse!</ng-container>
+        <nz-form-control [nzSpan]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="typeTPL">
+          <nz-select class="FULL_WIDTH" style="text-align: left" formControlName="city" nzPlaceHolder="code..."
+            nzAllowClear>
+            <nz-option *ngFor="let item of  allCity " [nzValue]="item.value" [nzLabel]="item.name"></nz-option>
+          </nz-select>
+          <ng-template #typeTPL let-control>
+            <ng-container *ngIf="control.hasError('required')">Veuillez saisir le code!</ng-container>
           </ng-template>
         </nz-form-control>
       </nz-form-item>

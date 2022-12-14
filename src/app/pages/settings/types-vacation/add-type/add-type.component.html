@@ -1,45 +1,64 @@
-<form
-  nz-form
-  [formGroup]="typeService.validateForm"
-  (ngSubmit)="submitForm(typeService.validateForm.value)"
->
+<form nz-form [formGroup]="typeService.validateForm" (ngSubmit)="submitForm(typeService.validateForm.value)">
   <nz-form-item>
-    <nz-form-control
-      [nzSpan]="24"
-      nzHasFeedback
-      nzValidatingTip="Validating..."
-      [nzErrorTip]="nameTPL"
-    >
+    <nz-form-control [nzSpan]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="nameTPL">
       <input nz-input formControlName="name" type="string" placeholder="name..." />
       <ng-template #nameTPL let-control>
-        <ng-container *ngIf="control.hasError('required')"
-          > Veuillez saisir name ! </ng-container
-        >
+        <ng-container *ngIf="control.hasError('required')"> Veuillez saisir name ! </ng-container>
       </ng-template>
     </nz-form-control>
   </nz-form-item>
 
   <nz-form-item>
-    <nz-form-control
-      [nzSpan]="24"
-      nzHasFeedback
-      nzValidatingTip="Validating..."
-      [nzErrorTip]="actifTPL"
-    >
-      <input
-        nz-input
-        type="number"
-        formControlName="actif"
-        placeholder="actif..."
-      />
-      <ng-template #actifTPL let-control>
-        <ng-container *ngIf="control.hasError('required')"
-          >Veuillez saisir actif !</ng-container
-        >
+    <nz-form-control [nzSpan]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="typeTPL">
+      <nz-select class="FULL_WIDTH" style="text-align: left" formControlName="actif" nzPlaceHolder="code..."
+        nzAllowClear>
+        <nz-option *ngFor="let item of listCode" [nzValue]="item.value" [nzLabel]="item.name"></nz-option>
+      </nz-select>
+      <ng-template #typeTPL let-control>
+        <ng-container *ngIf="control.hasError('required')">Veuillez saisir le code!</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzSpan]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="nameTPL">
+      <input nz-input formControlName="nbJourAn" type="number" placeholder="nbJourAn..." />
+      <ng-template #nameTPL let-control>
+        <ng-container *ngIf="control.hasError('required')"> Veuillez saisir nombre de jour par an ! </ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzSpan]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="nameTPL">
+      <input nz-input formControlName="MaxJourPris" type="number" placeholder="MaxJourPris..." />
+      <ng-template #nameTPL let-control>
+        <ng-container *ngIf="control.hasError('required')"> Veuillez saisir maximum jour a pris ! </ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzSpan]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="nameTPL">
+      <input nz-input formControlName="anciennete" type="number" placeholder="anciennete..." />
+      <ng-template #nameTPL let-control>
+        <ng-container *ngIf="control.hasError('required')"> Veuillez saisir anciennete ! </ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzSpan]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="nameTPL">
+      <input nz-input  formControlName="maxHeureAuto"  type="time" step="2"
+        nzPlaceHolder="maxHeureAuto...">
+      <ng-template #nameTPL let-control>
+        <ng-container *ngIf="control.hasError('required')"> Veuillez saisir maxHeureAuto ! </ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzSpan]="24" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="nameTPL">
+      <input nz-input formControlName="nbFoisMois" type="number" placeholder="nbFoisMois..." />
+      <ng-template #nameTPL let-control>
+        <ng-container *ngIf="control.hasError('required')"> Veuillez saisir nbFoisMois ! </ng-container>
       </ng-template>
     </nz-form-control>
   </nz-form-item>
 
 </form>
-
-

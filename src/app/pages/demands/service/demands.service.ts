@@ -63,6 +63,18 @@ export class DemandsService {
 
       },
       {
+        name: 'date_creation',
+        sortFn: (a: ITableData, b: ITableData) =>
+          moment(a.date_at as string, 'DD/MM/YYYY').isAfter(
+            moment(b.date_at as string, 'DD/MM/YYYY')
+          )
+            ? 1
+            : -1,
+        sortDirections: ['ascend', 'descend', null],
+        visible:true
+
+      },
+      {
         name: 'nbJourPris',
         sortFn: (a: ITableData, b: ITableData) =>
           (a.status as string).localeCompare(b.status as string),
@@ -114,7 +126,7 @@ export class DemandsService {
 
   getAllDemands(data: any): Observable<any> { return this.http.get(environment.api + "congesByStatus", {params: data, }) }
   
-  getDemandsBystatus(data: any): Observable<any> { return this.http.get(environment.api + "congesByStatus", {params: data, }) }
+  getDemandsBystatus(data: any): Observable<any> { return this.http.get(environment.api + "demande", {params: data, }) }
 
 
   addDemand(data: any) {

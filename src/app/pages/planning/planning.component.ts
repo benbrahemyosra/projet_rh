@@ -20,7 +20,7 @@ export class PlanningComponent implements OnInit, OnDestroy  {
   expand:boolean =false
   table: ITable = this.planningService.table;
   filter: IFilter = this.planningService.filter;
-  
+  listPlanning;
   constructor(
     public planningService: PlanningService,
     private _tableService: TableServiceService,
@@ -36,21 +36,35 @@ export class PlanningComponent implements OnInit, OnDestroy  {
   }  
 
   submitedFilter(form: any) {
-   form.date_debut = moment(form.date_debut).format("YYYY-MM-DD");
-   form.date_fin = moment(form.date_fin).format("YYYY-MM-DD");
-    
-    console.log(form);
-   
+    if(form.date_debut==null ){
+      form.date_debut="";
+   }
+    if(form.date_debut!="" ){
+    form.date_debut = moment(form.date_debut).format("YYYY-MM-DD");
+   }
+
+   if( form.date_fin==null ){
+    form.date_fin="";
+   }
+   if(form.date_fin!="" ){
+    form.date_fin = moment(form.date_fin).format("YYYY-MM-DD");
+   } 
+   console.log(form)  
     this._tableService.isLoading = true;
     setTimeout(() => {
       this.planningService.getPlanningByQuery(form).subscribe((res:any)=>{
         console.log(res)
+        if(Object){
+          this.listPlanning= Object.values(res);
+          console.log(this.listPlanning);
+        }else{
+          this.listPlanning=res;
+        }
         if( this.planningService.Tvisiblity.length!==0){
           this.planningService.clearArray(this.planningService.Tvisiblity);
             }
-        for (let item of res) {
-          item.expand=false;
-       
+        for (let item of this.listPlanning) {
+          item.expand=false; 
           if(item.type_planning=='projet'){
             this.planningService.Tvisiblity.push(true)
           }else{
@@ -66,7 +80,7 @@ export class PlanningComponent implements OnInit, OnDestroy  {
   
         }
   
-        this.planningService.table.data=res
+        this.planningService.table.data=this.listPlanning
       })
       this._tableService.isLoading = false;
     }, 1500);

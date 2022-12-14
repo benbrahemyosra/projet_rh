@@ -528,7 +528,7 @@ export class AppComponent implements OnInit {
           this.planningService.addTache(form).subscribe((res: any) => {
             console.log(res);
             Swal.fire({
-              text: "Voulez vous ajouter d'autre tâche pour ce projet ?",
+              text: "Voulez vous ajouter autre tâche pour ce projet ?",
               showCancelButton: true,
               confirmButtonColor: '#1890ff',
               cancelButtonColor: '#808080',
@@ -537,7 +537,6 @@ export class AppComponent implements OnInit {
             }).then((result) => 
             {
               if (result.value) {
-                console.log(result.value);
                 this.planningService.validateForm_tache?.reset();
                 this.planningService.validateForm_tache.controls.end_date.setValue('');
               }else{
@@ -555,7 +554,6 @@ export class AppComponent implements OnInit {
                   }
                   res.data[this.tableService.index].expand=true;
                   this.planningService.getTache(idplanning).subscribe((res:any)=>{
-                    console.log(res);
                     this.tableService.listeTache.data=res;
                    })
                   this.planningService.table.data = res.data;
@@ -605,12 +603,9 @@ export class AppComponent implements OnInit {
                 })
               }
               res.data[this.tableService.index].expand=true;
-              console.log(idplanning);
               this.planningService.getTache(idplanning).subscribe((res:any)=>{
-                console.log(res);
                 this.tableService.listeTache.data=res;
                })
-              this.handleCancel(config);
               this.planningService.table.data = res.data;
               this.planningService.total = res.total;
               this.tableService.isLoading = false;
@@ -947,6 +942,7 @@ export class AppComponent implements OnInit {
             this.tableService.isLoading = false;
           })
         })
+        this.handleCancel(config);
       } else {
         this.tableService.isLoading = true;
         this.typeService.updateTypes(this.typeService.validateForm?.value).subscribe(() => {

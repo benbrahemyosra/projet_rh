@@ -6,6 +6,7 @@ import { IBtnConfig, ITable } from 'src/app/interfaces/table.interface';
 import { TableServiceService } from 'src/app/shared/table/service/table-service.service';
 import { UserServiceService } from './service/user-service.service';
 import { AppServiceService } from 'src/app/app-service.service';
+
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -14,7 +15,6 @@ import { AppServiceService } from 'src/app/app-service.service';
 export class UsersComponent implements OnInit {
   table: ITable = this._userService.table;
   filter: IFilter = this._userService.filters;
-
   constructor(
     public _userService: UserServiceService,
     private _tableService: TableServiceService,
@@ -24,6 +24,8 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllUSers(1)
+    
+
   }
   submitedFilter(form: NgForm) {
     this._tableService.isLoading = true;

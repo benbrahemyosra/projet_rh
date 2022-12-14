@@ -74,17 +74,19 @@ eventsDate: any[] = []
     //   console.log(res);
     // })
 
-    this.planningService.getPlanningEmp(localStorage.getItem('iduser')).pipe(
+    this.calendarService.getPlanningEmp(localStorage.getItem('iduser')).pipe(
       mergeMap((events1: any)=>{
+        console.log(events1)
         let planingsToDisplay: any[] = [];
-        events1.data.forEach(e=>{
+        events1.forEach(e=>{
           console.log();
           
           planingsToDisplay.push({title: e.titre, start: e.date_debut, end: e.date_fin, color: '#2bbacb'})
   
         })
-        return this.planningService.getTacheEmp(localStorage.getItem('iduser')).pipe(
+        return this.calendarService.getTacheEmp(localStorage.getItem('iduser')).pipe(
           map((events2: any[])=>{
+            console.log(events2)
             events2.forEach(e=>{
               planingsToDisplay.push({title: e.titre, start: e.date_debut, end: e.date_fin, color: '#ee9247'})
             })

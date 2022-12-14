@@ -20,14 +20,17 @@ import { TypesService } from '../settings/types-vacation/service/types.service';
 })
 export class VacationComponent implements OnInit {
   radioValue = 'A';
+  verif=true;
+  arrayFilter=new Array();
   SELECTED_COMMAND!: ITableData;
   table: ITable = this.vacationService.table;
   filter: IFilter = this.vacationService.filters;
   array=[];
+  form;
  status: Array<{ value: string, name: string }> = [
-    { value:"accept" , name: "accept" },
-    { value:"attente" , name: "attente" },
-    { value:"refus" , name: "refus" },
+    { value:"Acceptation" , name: "Acceptation" },
+    { value:"Attente" , name: "Attente" },
+    { value:"Refus" , name: "Refus" },
 
   ]
   constructor(
@@ -43,20 +46,42 @@ export class VacationComponent implements OnInit {
     if(localStorage.getItem('role')=='admin' ||  this.radioValue == 'A'){
     this.getAllVactions(1);}
     else{
-       this.getVacationById(1);
+    this.getVacationById(1);
     }
     this.gettypeConge();
     this.vacationService.filters.filters[1].select_data=this.status;
 
   }
 
-  submitedFilter(form: NgForm) {
+  submitedFilter(form:any,page:number) { 
+if(form.name=="" && form.status=="" && form.type=="" ) {
+  this.verif=false;
+}   form.page=page;
+    if(form.status==null){
+       form.status="";
+    }
+    if(form.type==null){
+      form.type="";
+      console.log(form.type);
+    }
+    this.form=form;
     this._tableService.isLoading = true;
     setTimeout(() => {
       this.vacationService.getVacationByQuery( form).subscribe((res:any)=>{
-        console.log(res)
-        this.vacationService.table.data=res
-      })
+        console.log(res);
+        if(form.type!="" || form.status!=""){
+          let b = Object.values(res);
+          console.log(b);
+          this.vacationService.table.data= b
+          if(b.length<5){
+            this.vacationService.total=1;
+          }else{
+            this.vacationService.total=b.length;
+          }
+     }else{ 
+      this.vacationService.table.data=res.data;
+      this.vacationService.total=res.total;
+     } })
       this._tableService.isLoading = false;
     }, 1500);
     console.log(form);
@@ -174,13 +199,24 @@ gettypeConge(){
   })
 }
   pageChanged(page: number): void {
-    if( this.radioValue == 'A'){
+    if( this.radioValue == 'A' ){
+      if(this.form.name!="" || this.verif==false  ){
+        console.log(this.form)
+        this.form.page=page;
+          this.vacationService.getVacationByQuery(this.form).subscribe((res:any)=>{
+            console.log(this.form);
+            console.log(res);
+          this.vacationService.table.data=res.data;
+          this.vacationService.total=res.total;
+          })
+        
+      }else{
       this.getAllVactions(page)
-
+      }
     }else{
       this.getVacationById(page)
     }
-
+   
   }
   getAll(e){
     this.getAllVactions(1);

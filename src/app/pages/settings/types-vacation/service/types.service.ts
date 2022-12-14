@@ -31,12 +31,47 @@ export class TypesService {
       },
 
       {
-        name: 'name',
+        name: 'actif',
         sortFn: null,
         sortDirections: [null, null, null],
         visible:true
 
       },
+      {
+        name: 'nbJourAn',
+        sortFn: null,
+        sortDirections: [null, null, null],
+        visible:true
+
+      },
+      {
+        name: 'MaxJourPris',
+        sortFn: null,
+        sortDirections: [null, null, null],
+        visible:true
+
+      }, 
+      {
+        name: 'anciennete',
+        sortFn: null,
+        sortDirections: [null, null, null],
+        visible:true
+
+      },
+      {
+        name: 'maxHeureAuto',
+        sortFn: null,
+        sortDirections: [null, null, null],
+        visible:true
+
+      },  {
+        name: 'nbFoisMois',
+        sortFn: null,
+        sortDirections: [null, null, null],
+        visible:true
+
+      },
+      
 
       {
         name: 'Action',

@@ -13,4 +13,10 @@ export class CalendarService {
     return this.http.get(environment.api + "planning");
 
   }
+  getPlanningEmp(id){
+    return this.http.get(environment.api + "planningbyIdUser/"+id);
+  }
+  getTacheEmp(id){
+    return this.http.get(environment.api + "tachebyIdUser/"+id);
+  }
 }

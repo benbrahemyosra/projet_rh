@@ -23,7 +23,6 @@ export class PlanningService {
   btnClicked:string;
   suiv:number=0
   numberOfEmplo:number=0;
-
   posttache=false;
   suivant:boolean =true;
   idPlanning:number;
@@ -130,10 +129,6 @@ export class PlanningService {
   })
 
  }
-
- getPlanningEmp(id){
-  return this.http.get(environment.api + 'show_planning/' + id)
-}
 
   getTypePlanning() {
     return this.http.get(environment.api + 'typeplanning')

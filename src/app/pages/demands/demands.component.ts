@@ -18,7 +18,7 @@ export class DemandsComponent implements OnInit {
  //table: ITable = this.demandsService.table;
  table: ITable;
   filter: IFilter;
-
+form;
   constructor(
     public demandsService: DemandsService,
     private _APP_SERVICE: AppServiceService,
@@ -31,15 +31,16 @@ export class DemandsComponent implements OnInit {
   ngOnInit(): void {
     this.table= this.demandsService.table; 
     this.filter = this.demandsService.filters ;
-    this.getAllDemands({ page: 1 });
+    this.getAllDemands(1);
   }
  
-  getAllDemands(data): void {
-    this.demandsService.getDemandsBystatus(data).subscribe((res: any) => {
+  getAllDemands(page: number): void {
+    this.demandsService.getDemandsBystatus({ page: page }).subscribe((res: any) => {
+      console.log(res)
       if( this.vacationService.Tvisiblity.length!==0){
         this.vacationService.clearArray( this.vacationService.Tvisiblity);
           }
-      for (let item of res) {
+      for (let item of res.data) {
         if(item.code_typeC=='1'){
           this.vacationService.Tvisiblity.push(true)
         }else{
@@ -47,23 +48,53 @@ export class DemandsComponent implements OnInit {
          }
         }
         console.log( this.vacationService.Tvisiblity);
-      this.demandsService.table.data = res ;
+      this.demandsService.table.data = res.data ;
+      this.demandsService.total = res.total ;
     })
   } 
-  submitedFilter(form: any) {
+  submitedFilter(form: any,page:number) {
+    form.page=page;
     this._tableService.isLoading = true;
-    form.date = moment(form.date).format("YYYY-MM-DD");
+    if( form.date==null){
+      form.date="";
+    }
+    if(form.date!=""){
+      form.date = moment(form.date).format("YYYY-MM-DD");
+
+    }
+    this.form=form;
     setTimeout(() => {
-      this.demandsService.getDemandeByQuery( form).subscribe((res:any)=>{
+      this.demandsService.getDemandeByQuery(form).subscribe((res:any)=>{
         console.log(res)
-        this.demandsService.table.data=res
+        if(form.date){
+            let b = Object.values(res);
+            console.log(b);
+            this.demandsService.table.data= b
+            if(b.length<5){
+              this.demandsService.total=1;
+            }
+       }else{
+        this.demandsService.table.data=res.data
+        this.demandsService.total = res.total ;
+       }
       })
       this._tableService.isLoading = false;
     }, 1500);
     console.log(form);
   }
 
-
+  pageChanged(page: number): void {
+    if(this.form.date!="" || this.form.name!=""){
+      this.form.page=page;
+        this.demandsService.getDemandeByQuery(this.form).subscribe((res:any)=>{
+          console.log(res)
+          this.demandsService.table.data=res.data
+          this.demandsService.total = res.total ;
+        }) 
+      }else{
+      this.getAllDemands(page)
+    }
+  }
   add(): void { 
     this._APP_SERVICE.MODALS_NUMBER.push('demande');
     console.log(this._APP_SERVICE.MODALS_NUMBER)
@@ -117,6 +148,6 @@ export class DemandsComponent implements OnInit {
 
    }
   }
-  pageChanged(e): void { }
+  
 
 }

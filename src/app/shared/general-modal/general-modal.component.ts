@@ -54,7 +54,6 @@ export class GeneralModalComponent implements OnInit {
   }
 
   next() { 
-    console.log( this.planningService.type);
     if(this.planningService.type==10 && this.planningService.idPlanning==undefined){
       this.planningService.typecode=10;
       this.planningService.suivant=false;
@@ -88,7 +87,6 @@ export class GeneralModalComponent implements OnInit {
    this.planningService.startDate=new Date(start_date);
    this.planningService.startDate.setDate( this.planningService.startDate.getDate()-1)
    this.planningService.endDate=new Date(end_date);
-
     this.planningService.addPlanning(form).subscribe((res: any) => {
       this.planningService.idPlanning=res.id;
       this.planningService.liste_employees=JSON.parse(res.liste_employees)
@@ -182,7 +180,6 @@ export class GeneralModalComponent implements OnInit {
   }
 
   pre() {
-    console.log(this.planningService.suivant)
     if(this.planningService.type==10){
       this.planningService.typecode=0;
       this.planningService.suivant=true;

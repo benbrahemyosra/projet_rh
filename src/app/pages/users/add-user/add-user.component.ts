@@ -10,6 +10,7 @@ import { IChef } from 'src/app/interfaces/chef.interface';
 import { IUploadConfig } from 'src/app/interfaces/upload.interface';
 import { UserServiceService } from '../service/user-service.service';
 import { PlanningService } from '../../planning/service/planning.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-user',
@@ -36,12 +37,15 @@ export class AddUserComponent implements OnInit {
     { id: 0, label: "Administration" },
     { id: 1, label: "Salariés" },
   ]
+  allCity: Array<{ value: string, name: string }> =[];
 
   constructor(
     public userService: UserServiceService,
     private fb: FormBuilder,
     private fb_private: FormBuilder,
     public planningService: PlanningService,
+    public http: HttpClient,
+
 
   ) {
     this.userService.validateForm = this.fb.group({
@@ -73,7 +77,14 @@ export class AddUserComponent implements OnInit {
   ngOnInit(): void {
     this.getTypes();
     this.getPosts();
-
+     this.http.get<any>("assets/tn.json").subscribe((data:any)=>{
+     let i=0;
+       for(let item of data){
+        this.allCity[i]={name:item.city,value:item.city};
+        i++;
+       }
+      console.log(this.allCity)
+       } )
     console.log(this.planningService.suivant)
     if (this.user) {
       console.log(this.user);

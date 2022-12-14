@@ -1,5 +1,5 @@
 <div>
-  <app-filter [filter]="filter" (submitFilterEvent)="submitedFilter($event)">
+  <app-filter [filter]="filter" (submitFilterEvent)="submitedFilter($event,1)">
   </app-filter>
   <br />
   <p style="font-weight: 500;font-size: 50px;">{{timerService.fetchDisplay()}}</p>  
@@ -31,8 +31,8 @@
   <br />
   <br />
   <nz-radio-group [(ngModel)]="radioValue" *ngIf="_APP_SERVICE.role=='admin'">
-    <label nz-radio nzValue="A" (click)=" getAll($event)">Tout</label>
-    <label nz-radio nzValue="B" (click)="getbyid()">Mes pointages</label>
+    <label nz-radio nzValue="A" (click)="getAllDatePointage(1)">Tout</label>
+    <label nz-radio nzValue="B" (click)="getTimePointOFuser(1)">Mes pointages</label>
   </nz-radio-group>
   <br />
   <br />

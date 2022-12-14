@@ -141,7 +141,6 @@ selectChangeHandler (event: any) {
   onSelect(e) {
     if (e == 'projet') {
       this.planningService.validateForm_general.controls.dateProd.enable();
-
       this.planningService.type = 10;
       this.planningService.suiv=1;
   }

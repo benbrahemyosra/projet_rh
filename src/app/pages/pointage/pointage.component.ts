@@ -37,6 +37,8 @@ export class PointageComponent implements OnInit {
   data:any;
   nbHeure:any
   position;
+  verif=true;
+  form:any;
   constructor(public pointageService : PointageService,
     private _tableService: TableServiceService,
     public datepipe: DatePipe,
@@ -58,18 +60,40 @@ export class PointageComponent implements OnInit {
     }
   }
 
-
-  submitedFilter(form:any): void { 
+  submitedFilter(form:any,page:number): void { 
+    if(form.date=="" && form.name==""){
+      this.verif=false;
+    }
+    console.log(form);
+    if(form.date==null){
+      form.date="";
+    }
+    if(form.date!=""){
+      form.date = moment(form.date).format("YYYY-MM-DD");
+    }
+    form.page=page;
     this._tableService.isLoading = true;
-    form.date = moment(form.date).format("YYYY-MM-DD");
+    this.form=form;
     setTimeout(() => {
       this.pointageService.getPointageByQuery( form).subscribe((res:any)=>{
+        if(form.date!= ""){
+          let b = Object.values(res);
+          console.log(b);
+          this.pointageService.table.data= b
+          if(b.length<5){
+            this.pointageService.total=1;
+          }else{
+            this.pointageService.total=b.length;
+          }}
+          else{
+            this.pointageService.table.data=res.data
+            this.pointageService.total=res.total
+          }
         console.log(res)
-        this.pointageService.table.data=res.data
+       
       })
       this._tableService.isLoading = false;
     }, 1500);
-    console.log(form.date);
   }
 
    Addstartday()
@@ -130,7 +154,6 @@ AddPausse(str){
         if (result.value) {
       this.timerService.pauseTimer();
       this.nbHeure=(this.timerService.fetchDisplay().substr(0,this.timerService.fetchDisplay().indexOf(':')));
-      console.log(this.nbHeure)
       this.clickedendOfDay=true;
       this.clickedstart=false;
       this.clickedPause=true;
@@ -145,7 +168,7 @@ AddPausse(str){
       });
       break;
   }
-  if(str!="clickedEndDay"){
+  if(str!="clickedEnd"){
     let date =this.datepipe.transform((new Date), 'YYYY-MM-dd h:mm:ss');
     this.pointageService.AddDatePause(date,localStorage.getItem('idPointage'),this.str,this.nbHeure).subscribe(res=>{
       this.disabledButton();
@@ -177,12 +200,24 @@ AddPausse(str){
     })
   }
   pageChanged(page: number): void {
+    console.log(page);
     if( this.radioValue == 'A'){
-      this.getAllDatePointage(page)
+      if(this.verif==false){
+        this.form.page=page;
+          this.pointageService.getPointageByQuery(this.form).subscribe((res:any)=>{
+                this.pointageService.table.data=res.data
+                this.pointageService.total=res.total
+                if(page ==  this.pointageService.total){
+                       this.verif=true;
+                }
+              })   
+            }else{
+              this.getAllDatePointage(page)
+            }  
     }else{
       this.getTimePointOFuser(page)
     }
-   }
+  }
   disabledButton(){
     this.pointageService.getPosition(localStorage.getItem('iduser')).subscribe(res=>{
       this.position=res
@@ -233,11 +268,6 @@ AddPausse(str){
     
   })
   }
-  getAll(e){
-    this.getAllDatePointage(1);
-  }
-  getbyid(){
-    this.getTimePointOFuser(1);
 
-  }
+
 }
